@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ITransfo</title>
+    <link rel="icon" href="static/imgs/logo.png" type="image/png"> 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="public, max-age=86400">
+
+  <link rel="stylesheet" async href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+ <script defer src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<script async src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+<!-- <script defer type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script> -->
+<script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" async integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+
+<script defer type="text/javascript" src="/static/javascript/progressbar.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="static/css/index.css">
+  <script defer type="text/javascript" src="static/javascript/index.js"></script>
+
+  </head>
+  <body>
+<!-- Modal -->
+<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="loginModal" aria-hidden="true">
+  <div class="modal-dialog  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <!-- progressbar and alert -->
+        <div style="display: none;" class="alert alert-danger" role="alert">
+          A simple danger alert—check it out!
+        </div>
+        <div class="spinner" style="display: none;">
+          <div class="cube1"></div>
+          <div class="cube2"></div>
+        </div>
+        <!-- tab headers -->
+        <div class="tab">
+          <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'signin')"><i class="fas fa-user"></i> SignIn</button>
+          <button class="tablinks" id="defaultClose" onclick="openTab(event, 'signup')"><i class="fas fa-user-plus"></i> SignUp</button>
+        </div>
+        <!-- signin tab -->
+        <div id="signin" class="tabcontent">
+          <form class="needs-validation col-12 col-sm-12 col-md-11 col-lg-10 col-xl-8" novalidate>
+          <div class="form-group">
+            <label for="InputEmail">Email address</label>
+            <input type="email" class="form-control" id="InputEmail" required aria-describedby="emailHelp" placeholder="Enter email">
+            <div class="inner">&nbsp;</div>
+            <small id="emailHelpBlock" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <div class="invalid-tooltip">
+              Please choose a username.
+            </div>
+            <div class="valid-tooltip">
+              Looks good!
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="InputPassword">Password</label>
+            <input type="password" class="form-control" id="InputPassword" required placeholder="Password">
+            <div class="inner">&nbsp;</div>
+            <small id="passwordHelpBlock" class="form-text text-muted">
+              Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+            </small>
+            <div class="invalid-tooltip">
+              Please choose a username.
+            </div>
+            <div class="valid-tooltip">
+              Looks good!
+            </div>
+          </div>
+          <div class="col-auto offset-6 offset-sm-6 offset-md-9 offset-lg-9 offset-xl-9">
+            <button type="button" class="btn"><i class="fas fa-sign-in-alt"></i> SignIn</button>
+          </div>
+        </form>
+        </div>
+        <!-- Signup tab -->
+        <div id="signup" class="tabcontent">
+          <form class="needs-validation col-12 col-sm-12 col-md-11 col-lg-10 col-xl-8" novalidate>
+            <div class="form-group">
+            <label for="exampleInputEmail1">First Name</label>
+            <input type="text" class="form-control" id="firstname" name="firstname" required aria-describedby="firstHelp" placeholder="First Name">
+            <small id="firstHelp" class="form-text text-muted">Please input a your first name.</small>
+            <div class="invalid-tooltip">
+              Please input a valid first name.
+            </div>
+            <div class="valid-tooltip">
+              Looks good!
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="lastname">Last Name</label>
+            <input type="text" class="form-control" id="lastname" name="lastname" required aria-describedby="lastHelp" placeholder="Last Name">
+            <small id="lastHelp" class="form-text text-muted">Please input a your last name.</small>
+            <div class="invalid-tooltip">
+              Please input a valid last name.
+            </div>
+            <div class="valid-tooltip">
+              Looks good!
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="sr-only" for="username">Username</label>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">@</div>
+              </div>
+              <input type="text" class="form-control" id="username" name="username" required placeholder="Username">
+                <div class="invalid-tooltip">
+                  Please choose a username.
+                </div>
+                <div class="valid-tooltip">
+                  Looks good!
+                </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" name="email" required aria-describedby="emailHelp" placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <div class="invalid-tooltip">
+              Please provide a valid Email.
+            </div>
+            <div class="valid-tooltip">
+              Looks good!
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required placeholder="Password">
+            <small id="passwordHelp" class="form-text text-muted">
+              Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+            </small>
+            <div class="invalid-tooltip">
+              Please provide a valid Password.
+            </div>
+            <div class="valid-tooltip">
+              Looks good!
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="confirmation">Confirmation</label>
+            <input type="password" class="form-control" id="confirmation" name="confirmation" required placeholder="Password">
+            <small id="confirmationHelp" class="form-text text-muted">
+              Your password must match the one above.
+            </small>
+            <div class="invalid-tooltip">
+              Please provide a validPassword Confirmation.
+            </div>
+            <div class="valid-tooltip">
+              Looks good!
+            </div>
+          </div>
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="customCheck1">
+            <label class="custom-control-label" for="customCheck1">Accept The Terms of Services and Privacy</label>
+          </div>
+          <br>
+          <div class="col-auto offset-6 offset-sm-6 offset-md-9 offset-lg-9 offset-xl-9">
+            <button type="button" class="btn"><i class="fas fa-user-plus"></i> SignUp</button>
+          </div>
+        </form>
+        </div>
+        
+      </div>
+
+    </div>
+  </div>
+</div>
+<div id="overlay">
+            <div id="progstat"></div>
+            <div id="progress"></div>
+        </div>
+  	<header>
+      <nav id="navbar-scroll" class="navbar navbar-expand-lg navbar-dark">
+        <!-- Navbar content -->
+        <a class="navbar-brand" href="/">
+          <div id="logo">
+            <i id="cloud" class="fas fa-cloud fa-2x"></i>
+            <i id="power" class="fas fa-bolt fa-1x"></i>
+            ITransfo
+          </div>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#home"><i class="icon fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#features"><i class="icon fas fa-list-alt"></i> Features</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#technology"><i class="icon fab fa-whmcs"></i> Technology</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#partners"><i class="icon fas fa-handshake"></i> Partners</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about"><i class="icon fas fa-info-circle"></i> About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contact"><i class="icon fas fa-envelope-square"></i> Contact</a>
+            </li>
+          </ul>
+          <span class="navbar-text" data-toggle="modal" data-target="#login">
+            <span><i style="width: 20px;" class="fas fa-sign-in-alt"></i> Console</span>
+          </span>
+        </div>
+      </nav>
+      <div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
+      </div>
+    </header>
+    <section>
+      <div class="section col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" id="home">
+        <div id="hero-text">
+            <h1>I am John Doe</h1>
+            <p>And I'm a Photographer</p>
+            <br>
+            <div id="tri"><a href="#features"><span></span></a></div>
+          </div>
+      </div>
+      <div class="section col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" id="features">
+        <div class="container">
+          <div class="row">
+            <div class="col-11 col-sm-11 col-md-5 col-lg-6 col-xl-6 text">
+              <h5></h5>
+              <p></p>
+            </div>
+            <div class="col-11 col-sm-11 col-md-5 col-lg-6 col-xl-6 imgs">
+              <img src="">
+              <img src="">
+              <img src="">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-11 col-sm-11 col-md-5 col-lg-6 col-xl-6 text">
+              <h5></h5>
+              <p></p>
+            </div>
+            <div class="col-11 col-sm-11 col-md-5 col-lg-6 col-xl-6 imgs">
+              <img src="">
+              <img src="">
+              <img src="">
+            </div>
+          </div>
+        </div>
+        <!--
+        <i id="" class="fas fa-cloud"></i>
+        <i id="" class="fas fa-bolt "></i>
+        <i class="fas fa-globe  "></i>
+        <i class="fab fa-android "></i>
+        <i class="fas fa-mobile-alt "></i>
+        <i class="fab fa-safari "></i>
+        <i class="fab fa-internet-explorer "></i>
+        <i class="fab fa-firefox "></i>
+        <i class="fab fa-edge "></i>
+        <i class="fab fa-chrome "></i>
+        <i class="fas fa-building "></i>
+        <i class="fas fa-industry "></i>
+        <i class="fas fa-exchange-alt "></i>
+        <i class="fas fa-map-marker "></i>
+        <i class="fas fa-hand-pointer "></i>
+        <i class="fab fa-hubspot "></i>
+        <i class="fas fa-desktop "></i>
+        <i class="fas fa-credit-card "></i>
+        <i class="fab fa-connectdevelop "></i>
+        <i class="fas fa-code-branch "></i>
+        <i class="fas fa-server"></i>
+        <i class="fas fa-users"></i>
+        <i class="fas fa-user"></i>
+        <i class="fas fa-tachometer-alt"></i>
+        <i class="fas fa-microchip"></i>
+        <i class="fab fa-linux"></i>
+        <i class="fas fa-mobile"></i>
+        <img src="https://www.raspberrypi.org/app/uploads/2015/08/raspberry-pi-logo.png" title="raspberry pi">
+      -->
+      </div>
+      <div class="section col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" id="technology">
+        <div id="tech-used">
+          <div class="card col-12 col-sm-11 col-md-5 col-lg-4 col-xl-3">
+            <img class="card-img-top" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/2000px-HTML5_logo_and_wordmark.svg.png" alt="Card image cap">
+            <div class="card-body">
+              <p class="card-text">Hypertext Markup Language is the standard markup language for creating web pages and web applications. With Cascading Style Sheets and JavaScript, it forms a triad of cornerstone technologies for the World Wide Web.</p>
+              <small class="text-muted">Developed by: W3C &amp; WHATWG</small>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">Initial Release: 1993</small>
+            </div>
+            <div class="techPercent" id="html"></div>
+          </div>
+          <div class="card col-12 col-sm-11 col-md-5 col-lg-4 col-xl-3">
+            <img class="card-img-top" src="https://www.optimum7.com/wp-content/uploads/2013/04/CSS3.png" alt="CSS Card image cap">
+            <div class="card-body">
+              <p class="card-text">Cascading Style Sheets is a style sheet language used for describing the presentation of a document written in a markup language. The language can be applied to any XML document, including plain XML, SVG and XUL.</p>
+              <small class="text-muted">Developed by: Håkon Wium Lie; Bert Bos; World Wide Web Consortium</small>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">Initial Release: December 17, 1996</small>
+            </div>
+            <div class="techPercent" id="css"></div>
+          </div>
+          <div class="card col-12 col-sm-11 col-md-5 col-lg-4 col-xl-3">  
+            <img class="card-img-top" src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="Javascript Card image cap">
+            <div class="card-body">
+              <p class="card-text">JavaScript, often abbreviated as JS, is a high-level, interpreted programming language. It is a language which is also characterized as dynamic, weakly typed, prototype-based and multi-paradigm. <br>
+              <small class="text-muted">Developed by: Netscape Communications Corporation, Mozilla Foundation, Ecma International</small></p>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">Initial Release: December 4, 1995</small>
+            </div>
+            <div class="techPercent" id="javascript"></div>
+          </div>
+          <div class="card col-12 col-sm-11 col-md-5 col-lg-4 col-xl-3">
+            <img class="card-img-top" src="https://cdn.iconscout.com/public/images/icon/free/png-512/python-logo-31578242a9b4f4ae-512x512.png" alt="Python Card image cap">
+            <div class="card-body">
+              <p class="card-text">Python is an interpreted high-level programming language for general-purpose programming. Created by Guido van Rossum and first released in 1991, Python has a design philosophy that emphasizes code readability, notably using significant whitespace.</p>
+              <small class="text-muted">Developed by: Guido van Rossum</small>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">Initial Release: 1990</small>
+            </div>
+            <div class="techPercent" id="python"></div>
+          </div>
+          <div class="card col-12 col-sm-11 col-md-5 col-lg-4 col-xl-3">
+            <img class="card-img-top" src="https://pbs.twimg.com/profile_images/733010550670557184/aMmM_m3g.jpg" alt="Firebase Card image cap">
+            <div class="card-body">
+              <p class="card-text">Firebase is a mobile and web application development platform developed by Firebase, Inc. in 2011, then acquired by Google in 2014. Formerly known as Google Cloud Messaging (GCM), Firebase Cloud Messaging (FCM) is a cross-platform solution for messages and notifications for Android, iOS, and web applications.</p>
+              <small class="text-muted">Developed by: Google</small>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">Initial Release: September 2011</small>
+            </div>
+            <div class="techPercent" id="firebase"></div>
+          </div>
+          <div class="card col-12 col-sm-11 col-md-5 col-lg-4 col-xl-3">
+            <img class="card-img-top" src="https://nodejs.org/static/images/logos/nodejs-new-pantone-black.png" alt="NodeJs Card image cap">
+            <div class="card-body">
+              <p class="card-text">Node.js is an open-source, cross-platform JavaScript run-time environment that executes JavaScript code server-side. Historically, JavaScript was used primarily for client-side scripting, in which scripts written in JavaScript are embedded in a webpage's HTML and run client-side by a JavaScript engine in the user's web browser.</p>
+              <small class="text-muted">Developed by: Node.js Developers, Joyent, contributors</small>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">Initial Release: May 27, 2009</small>
+            </div>
+            <div class="techPercent" id="nodejs"></div>
+          </div>
+          <div class="card col-12 col-sm-11 col-md-5 col-lg-4 col-xl-3">
+            <img class="card-img-top" src="http://fortimelp.fr/274-large_default/formation-jquery-3-jours.jpg" alt="Card image cap">
+            <div class="card-body">
+              <p class="card-text">jQuery is a cross-platform JavaScript library designed to simplify the client-side scripting of HTML. It is free, open-source software using the permissive MIT License. jQuery's syntax is designed to make it easier to navigate a document, select DOM elements, create animations, handle events, and develop Ajax applications.</p>
+              <small class="text-muted">Developed by: jQuery Team</small>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">Initial Release: August 26, 2006</small>
+            </div>
+            <div class="techPercent" id="jquery"></div>
+          </div>
+          <div class="card col-12 col-sm-11 col-md-5 col-lg-4 col-xl-3">
+            <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv-GgGSCs9dfk0N61ERKR1QscAQ1Hj7uZV53IP_7alz0a2AHt4LA" alt="Card image cap">
+            <div class="card-body">
+              <p class="card-text">Bootstrap is a free and open-source front-end library for designing websites and web applications. It contains HTML- and CSS-based design templates for typography, forms, buttons, navigation and other interface components, as well as optional JavaScript extensions. Unlike many web frameworks, it concerns itself with front-end development only</p>
+              <small class="text-muted">Developed by: Mark Otto, Jacob Thornton</small>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">Initial Release: August 2011</small>
+            </div>
+            <div class="techPercent" id="bootstrap"></div>
+          </div>
+        </div>
+      </div>
+      <div class="section col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" id="partners">
+        <div class="card text-center">
+          <div class="card-header">
+            <i class="fas fa-handshake"></i> Partners
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <img src="http://www.isetr.rnu.tn/img/logo.png" alt="Iset rades logo">
+            <img width="100%" src="http://english.ttransfo.com.tn/english/wp-content/uploads/2015/09/TTF-1.png" alt="TunisieTransfo logo">
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+          <div class="card-footer text-muted">
+            2 days ago
+          </div>
+        </div>
+      </div>
+      <div class="section col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" id="about">
+        <p>Another journey chamber way yet females man. Way extensive and dejection get delivered deficient sincerity gentleman age. Too end instrument possession contrasted motionless. Calling offence six joy feeling. Coming merits and was talent enough far. Sir joy northward sportsmen education. Discovery incommode earnestly no he commanded if. Put still any about manor heard. 
+
+        Breakfast agreeable incommode departure it an. By ignorant at on wondered relation. Enough at tastes really so cousin am of. Extensive therefore supported by extremity of contented. Is pursuit compact demesne invited elderly be. View him she roof tell her case has sigh. Moreover is possible he admitted sociable concerns. By in cold no less been sent hard hill. 
+
+        Looking started he up perhaps against. How remainder all additions get elsewhere resources. One missed shy wishes supply design answer formed. Prevent on present hastily passage an subject in be. Be happiness arranging so newspaper defective affection ye. Families blessing he in to no daughter. 
+        </p>
+        <div class="profile-card col-10 col-sm-9 col-md-5 col-lg-4 col-xl-3">
+          <img src="img.jpg" alt="John" style="width:100%">
+          <h1>John Doe</h1>
+          <p class="title">CEO & Founder, Example</p>
+          <p>Harvard University</p>
+          <a href="#"><i class="fas fa-globe"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-facebook-square"></i></a>
+          <p><button>Contact</button></p>
+        </div>
+        <div class="profile-card col-10 col-sm-9 col-md-5 col-lg-4 col-xl-3">
+          <img src="img.jpg" alt="John" style="width:100%">
+          <h1>John Doe</h1>
+          <p class="title">CEO & Founder, Example</p>
+          <p>Harvard University</p>
+          <a href="#"><i class="fas fa-globe"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-facebook-square"></i></i></a>
+          <p><button>Contact</button></p>
+        </div>
+        <div class="profile-card col-10 col-sm-9 col-md-5 col-lg-4 col-xl-3">
+          <img src="img.jpg" alt="John" style="width:100%">
+          <h1>John Doe</h1>
+          <p class="title">CEO & Founder, Example</p>
+          <p>Harvard University</p>
+          <a href="#"><i class="fas fa-globe"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-facebook-square"></i></a>
+          <p><button>Contact</button></p>
+        </div>
+      </div>
+
+      <div class="section col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" id="contact">
+          <div class="chip">
+            <img src="img_avatar.jpg" alt="Person" width="96" height="96">
+            John Doe
+          </div>
+          <div class="chip">
+              <img src="img_avatar.jpg" alt="Person" width="96" height="96">
+              John Doe
+            </div> 
+          <div class="chip">
+            <img src="img_avatar.jpg" alt="Person" width="96" height="96">
+            John Doe
+          </div> 
+      </div>
+       <div class="container">
+          <form action="action_page.php">
+
+            <label for="fname">First Name</label>
+            <input type="text" id="fname" name="firstname" placeholder="Your name..">
+
+            <label for="lname">Last Name</label>
+            <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+
+            <label for="country">Country</label>
+            <select id="country" name="country">
+              <option value="australia">Australia</option>
+              <option value="canada">Canada</option>
+              <option value="usa">USA</option>
+            </select>
+
+            <label for="subject">Subject</label>
+            <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+
+            <input type="submit" value="Submit">
+
+          </form>
+        </div> 
+    </section>
+
+    <footer>
+      <div id="site-map" class="siteMap col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <h3>Site Map</h3>
+        <ul>
+          <li class="footer-list">
+            <a href="#features"><i class="icon fas fa-list-alt"></i> Features</a>
+          </li>
+          <li class="footer-list">
+            <a  href="#pricing"><i class="icon fas fa-dollar-sign"></i> Pricing</a>
+          </li>
+          <li class="footer-list">
+            <a href="#partners"><i class="icon fas fa-handshake"></i> Partners</a>
+          </li>
+          <li class="footer-list">
+            <a href="#about"><i class="icon fas fa-info-circle"></i> About</a>
+          </li>
+          <li class="footer-list">
+            <a href="#contact"><i class="icon fas fa-envelope-square"></i> Contact</a>
+          </li>
+        </ul>
+      </div>
+      
+    </footer>
+  </body>
+</html>
