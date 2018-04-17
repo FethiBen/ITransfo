@@ -214,6 +214,9 @@ header {
   border-width: 3px;
   border-color: transparent transparent #02ccba transparent;
 }
+.invalid-tooltip, .valid-tooltip {
+  position: relative;
+}
 /* Style the tab */
 .tab {
   width: 100%;
