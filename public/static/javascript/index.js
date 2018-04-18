@@ -41,6 +41,7 @@ if(mobile) {
 
 $( document ).ready(function() {
       // [START authstatelistener]
+
   firebase.auth().onAuthStateChanged(function(user) {
     // [END_EXCLUDE]
     if (user) {
@@ -54,7 +55,6 @@ $( document ).ready(function() {
       var uid = user.uid;
       var providerData = user.providerData;
       // [START_EXCLUDE]
-      console.log(user);
       if (!emailVerified) {
         console.log("not verified");
       }
@@ -207,13 +207,21 @@ function submitSigninForm(){
 	}).then(user => {
 	  // Get the user's ID token as it is needed to exchange for a session cookie.
 	  return user.getIdToken().then(idToken => {
-	    return postIdTokenToSessionLogin('/sessionLogin/', idToken);
+		return postIdTokenToSessionLogin('/sessionLogin/', idToken);
 	  });
-	}).then(() => {
+	})/*.then(() => {
 	  // A page redirect would suffice as the persistence is set to NONE.
 	  //return firebase.auth().signOut();
-	}).then(() => {
+	  // Redirect to profile on success.
+		window.location.assign('/profile/');
+	})*/.catch((error) => {
 	  //window.location.assign('/dashboard/');
+	    var errorCode = error.code;
+	    var errorMessage = error.message;
+	    $("#wrong").text(errorMessage).show();
+        setTimeout(function(){ $("#wrong").hide(); }, 3000);
+        $(".modal-body").show();
+        $(".modal-content .spinner").hide();
 	});
 
     /*
@@ -300,13 +308,10 @@ function submitSignupForm(){
 			}).then(user => {
 			  // Get the user's ID token as it is needed to exchange for a session cookie.
 			  return user.getIdToken().then(idToken => {
-			    return postIdTokenToSessionLogin('/sessionLogin/', idToken);
+				return postIdTokenToSessionLogin('/sessionLogin/', idToken);
 			  });
-			}).then(() => {
-			  // A page redirect would suffice as the persistence is set to NONE.
-			  return firebase.auth().signOut();
-			}).then(() => {
-			  //window.location.assign('/dashboard/');
+			}).catch((error) => {
+			  window.location.assign('/');
 			});
 
         }
@@ -321,15 +326,18 @@ function submitSignupForm(){
 
 function getCookie(name) {
 
-    var matches = document.cookie.match(new RegExp(
+    /*var matches = document.cookie.match(new RegExp(
       "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
     ));
-    return matches ? decodeURIComponent(matches[1]) : undefined;
+    return matches ? decodeURIComponent(matches[1]) : undefined;*/
+    var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+	return v ? v[2] : null;
 }
-function postIdTokenToSessionLogin(url, id, csrf) {
+function postIdTokenToSessionLogin(url, id) {
 	var data = {
 		idToken: id
 	}
+	//$.redirect(url, data);
 	$.post(url, data).done(function (data) {
         if(data == 'UNAUTHORIZED REQUEST!') {
             $("#wrong").text("Invalid Session, Please Signin again").show();
@@ -339,6 +347,8 @@ function postIdTokenToSessionLogin(url, id, csrf) {
         }
         else {
         	document.cookie = JSON.parse(data).cookie;
+        	console.log(JSON.parse(data).cookie);
+        	console.log("cookie: "+document.cookie);
             //window.location.replace("/dashboard/");
         }
 
@@ -348,7 +358,9 @@ function postIdTokenToSessionLogin(url, id, csrf) {
     	$("#wrong").text("Something happend and could not log you in").show();
         setTimeout(function(){ $("#wrong").hide(); }, 3000);
   	});
+
 }
+
 /**
  * Sends an email verification to the user.
  */
@@ -418,4 +430,11 @@ function openTab(evt, tab) {
     $(".tabcontent").css({"border-color": "#ccc"});
     $("#"+tab).css({"border-color": "#02ccba"});
 } 
-
+/* --------------------------------------------------------------- */
+/*
+firebase.auth().signOut().then(function() {
+  // Sign-out successful.
+}).catch(function(error) {
+  // An error happened.
+});
+*/

@@ -1,139 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <meta charset="UTF-8"> 
+    <title>ITransfo Console</title>
+    <link rel="icon" href="static/imgs/logo.png" type="image/png"> 
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="public, max-age=86400">
 
-  <script src="/js/jquery-3.3.1.min.js"></script>
-  <script src="/js/popper.min.js"></script>
-  <script src="/js/jquery.easy-autocomplete.js"></script>
+  <link rel="stylesheet" async href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
+ <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 
-  <link rel="stylesheet" href="/css/bootstrap.min.css">
-  <script src="/js/bootstrap.min.js" type="text/javascript" ></script>
+<!-- <script defer type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script> -->
+<script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" async integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
 
-    <link href="/css/fontawesome-all.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/easy-autocomplete.css">
-    <link rel="stylesheet" href="/css/easy-autocomplete.themes.css">
+<script defer type="text/javascript" src="/static/javascript/progressbar.js"></script>
 
-<script type="text/javascript" src="/js/javascript.js"></script>
-<link rel="stylesheet" href="/css/stylesheet.css" type="text/css" />
-
-<title>Access Control</title>
-
+  <link rel="stylesheet" type="text/css" href="static/css/header.css">
+  <script defer type="text/javascript" src="static/javascript/header.js"></script>
+<!-- Import and configure the Firebase SDK -->
+  <!-- These scripts are made available when the app is served or deployed on Firebase Hosting -->
+  <!-- If you do not serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup -->
+  <script src="/__/firebase/4.0.0/firebase-app.js"></script>
+  <script src="/__/firebase/4.0.0/firebase-auth.js"></script>
+  <script src="/__/firebase/init.js"></script>
   </head>
-    <body>
-
-<!-- Modal -->
-<div class="modal fade" id="empModal" tabindex="-1" role="dialog" aria-labelledby="modTitle" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modTitle">Employee Status</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-	 <div class="loader"></div> 
-         <div id="empInfo" class="clearfix rounded">
-   			<div id="img" class="float-left col-6 col-sm-5 col-md-4 col-xl-3">
-   				<img class="rounded" src="">
-   			</div>
-   			<div id="info" class="float-right col-12 col-sm-6 col-md-7 col-xl-8">
-   				<p id="name"></p>
-   				<p id="address"></p>
-   				<p id="card_uid"></p>
-				<p style="text-align: center;" id="status"></p>
-   			</div>
-   	 </div>
-	<div id="logs">
-		 <table style="width:100%">
-		  <tr>
-		    <th>User Id</th>
-		    <th>Scan Id</th>
-		    <th>Scan Date</th>
-		    <th>Scan Time</th>
-		  </tr>
-		</table> 
-	</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-        <header>
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #006680;">
-          <a class="navbar-brand" onclick="openNav()" href="#"><i class="fab fa-windows"></i></a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fas fa-bars"></i>
-          </button>
-
-          <div class="collapse navbar-collapse navbarSupportedContent">
-            <ul class="navbar-nav mr-auto justify-content-end">
-              <li class="nav-item active">
-                <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard <i class="fas fa-home"></i><span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('about') }}">About <i class="fas fa-question-circle"></i></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('contact') }}">Contact <i class="fas fa-at"></i></a>
-              </li>
-	      <li class="nav-item dropdown">
-	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	          {{name}}
-	        </a>
-	        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-	          <a class="dropdown-item" href="{{ url_for('settings') }}">Settings <i class="fas fa-cog"></i></a>
-	          <div class="dropdown-divider"></div>
-	          <a class="dropdown-item" href="{{ url_for('logout') }}">LogOut <i class="fas fa-sign-out-alt"></i></a>
-	        </div>
-      	      </li>
-            </ul>
-
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" id="search" placeholder="Search By Name" aria-label="Search">
-    </form>
-            </div>
-        </nav>
-
-        <div id="mySidenav" class="sidenav">
-          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-          <div id="menu" class="col-12 col-sm-10 col-md-8 col-xl-6">
-                <a href="{{ url_for('dashboard') }}" class="menuList col-10 col-sm-5 col-md-4 col-xl-3">
-                      <h1>Dashboard</h1> <i class="fas  fa-home"></i>
-                </a>
-                <a href="{{ url_for('adduser') }}" class="menuList col-10 col-sm-5 col-md-4 col-xl-3">
-                      <h1>Add User</h1> <i class="fas  fa-plus-circle"></i>
-                </a>
-                <a href="{{ url_for('addemployee') }}" class="menuList col-10 col-sm-5 col-md-4 col-xl-3">
-                      <h1>Add Employee</h1> <i class="fas  fa-user-plus"></i>
-                </a>
-                <a href="{{ url_for('block') }}" class="menuList col-10 col-sm-5 col-md-4 col-xl-3">
-                      <h1>Block Employee</h1> <i class="fas  fa-ban"></i>
-                </a>
-                <a href="{{ url_for('deleteuser') }}" class="menuList col-10 col-sm-5 col-md-4 col-xl-3">
-                      <h1>Delete User</h1> <i class="fas  fa-trash-alt"></i>
-                </a>
-                <a href="{{ url_for('deleteemployee') }}" class="menuList col-10 col-sm-5 col-md-4 col-xl-3">
-                      <h1>Delete Employee</h1> <i class="fas  fa-trash-alt"></i>
-                </a>
-                <a href="{{ url_for('about') }}" class="menuList col-10 col-sm-5 col-md-4 col-xl-3">
-                      <h1>About</h1> <i class="fas  fa-question-circle"></i>
-                </a>
-                <a href="{{ url_for('contact') }}" class="menuList col-10 col-sm-5 col-md-4 col-xl-3">
-                      <h1>Contact</h1> <i class="fas  fa-at"></i>
-                </a>
-		<a href="{{ url_for('settings') }}" class="menuList col-10 col-sm-5 col-md-4 col-xl-3">
-                      <h1>Settings</h1> <i class="fas  fa-cog"></i>
-                </a>
-                <a href="{{ url_for('logout') }}" class="menuList col-10 col-sm-5 col-md-4 col-xl-3">
-                      <h1>LogOut</h1> <i class="fas  fa-sign-out-alt"></i>
-                </a>
-          </div>
-        </div>
-        </header>

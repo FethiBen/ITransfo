@@ -20,12 +20,17 @@
 
   <link rel="stylesheet" type="text/css" href="static/css/index.css">
   <script defer type="text/javascript" src="static/javascript/index.js"></script>
+  <script defer type="text/javascript" src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
 <!-- Import and configure the Firebase SDK -->
   <!-- These scripts are made available when the app is served or deployed on Firebase Hosting -->
   <!-- If you do not serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup -->
-  <script src="/__/firebase/4.0.0/firebase-app.js"></script>
-  <script src="/__/firebase/4.0.0/firebase-auth.js"></script>
-  <script src="/__/firebase/init.js"></script>
+    <script defer src="/__/firebase/4.12.1/firebase-app.js"></script>
+    <script defer src="/__/firebase/4.12.1/firebase-auth.js"></script>
+    <script src="/__/firebase/4.12.1/firebase-database.js"></script>
+    <script src="/__/firebase/4.12.1/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/4.12.1/firebase-functions.js"></script>
+    <script defer src="/__/firebase/init.js"></script>
+
   </head>
   <body>
     <!-- page load status -->
@@ -289,7 +294,7 @@
       <div class="section col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" id="technology">
         <div id="tech-used">
           <div class="card col-12 col-sm-11 col-md-5 col-lg-4 col-xl-3">
-            <img class="card-img-top" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/2000px-HTML5_logo_and_wordmark.svg.png" alt="Card image cap">
+            <img class="card-img-top" src="/static/imgs/html-logo.png" alt="Card image cap">
             <div class="card-body">
               <p class="card-text">Hypertext Markup Language is the standard markup language for creating web pages and web applications. With Cascading Style Sheets and JavaScript, it forms a triad of cornerstone technologies for the World Wide Web.</p>
               <small class="text-muted">Developed by: W3C &amp; WHATWG</small>
@@ -300,7 +305,7 @@
             <div class="techPercent" id="html"></div>
           </div>
           <div class="card col-12 col-sm-11 col-md-5 col-lg-4 col-xl-3">
-            <img class="card-img-top" src="https://www.optimum7.com/wp-content/uploads/2013/04/CSS3.png" alt="CSS Card image cap">
+            <img class="card-img-top" src="/static/imgs/CSS-logo.png" alt="CSS Card image cap">
             <div class="card-body">
               <p class="card-text">Cascading Style Sheets is a style sheet language used for describing the presentation of a document written in a markup language. The language can be applied to any XML document, including plain XML, SVG and XUL.</p>
               <small class="text-muted">Developed by: Håkon Wium Lie; Bert Bos; World Wide Web Consortium</small>
@@ -311,7 +316,7 @@
             <div class="techPercent" id="css"></div>
           </div>
           <div class="card col-12 col-sm-11 col-md-5 col-lg-4 col-xl-3">  
-            <img class="card-img-top" src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="Javascript Card image cap">
+            <img class="card-img-top" src="/static/imgs/javascript-logo.png" alt="Javascript Card image cap">
             <div class="card-body">
               <p class="card-text">JavaScript, often abbreviated as JS, is a high-level, interpreted programming language. It is a language which is also characterized as dynamic, weakly typed, prototype-based and multi-paradigm. <br>
               <small class="text-muted">Developed by: Netscape Communications Corporation, Mozilla Foundation, Ecma International</small></p>
@@ -322,7 +327,7 @@
             <div class="techPercent" id="javascript"></div>
           </div>
           <div class="card col-12 col-sm-11 col-md-5 col-lg-4 col-xl-3">
-            <img class="card-img-top" src="https://cdn.iconscout.com/public/images/icon/free/png-512/python-logo-31578242a9b4f4ae-512x512.png" alt="Python Card image cap">
+            <img class="card-img-top" src="/static/imgs/python-logo.png" alt="Python Card image cap">
             <div class="card-body">
               <p class="card-text">Python is an interpreted high-level programming language for general-purpose programming. Created by Guido van Rossum and first released in 1991, Python has a design philosophy that emphasizes code readability, notably using significant whitespace.</p>
               <small class="text-muted">Developed by: Guido van Rossum</small>
@@ -333,7 +338,7 @@
             <div class="techPercent" id="python"></div>
           </div>
           <div class="card col-12 col-sm-11 col-md-5 col-lg-4 col-xl-3">
-            <img class="card-img-top" src="https://pbs.twimg.com/profile_images/733010550670557184/aMmM_m3g.jpg" alt="Firebase Card image cap">
+            <img class="card-img-top" src="/static/imgs/firebase-logo.jpg" alt="Firebase Card image cap">
             <div class="card-body">
               <p class="card-text">Firebase is a mobile and web application development platform developed by Firebase, Inc. in 2011, then acquired by Google in 2014. Formerly known as Google Cloud Messaging (GCM), Firebase Cloud Messaging (FCM) is a cross-platform solution for messages and notifications for Android, iOS, and web applications.</p>
               <small class="text-muted">Developed by: Google</small>
@@ -344,7 +349,7 @@
             <div class="techPercent" id="firebase"></div>
           </div>
           <div class="card col-12 col-sm-11 col-md-5 col-lg-4 col-xl-3">
-            <img class="card-img-top" src="https://nodejs.org/static/images/logos/nodejs-new-pantone-black.png" alt="NodeJs Card image cap">
+            <img class="card-img-top" src="/static/imgs/nodejs-logo.png" alt="NodeJs Card image cap">
             <div class="card-body">
               <p class="card-text">Node.js is an open-source, cross-platform JavaScript run-time environment that executes JavaScript code server-side. Historically, JavaScript was used primarily for client-side scripting, in which scripts written in JavaScript are embedded in a webpage's HTML and run client-side by a JavaScript engine in the user's web browser.</p>
               <small class="text-muted">Developed by: Node.js Developers, Joyent, contributors</small>
@@ -355,7 +360,7 @@
             <div class="techPercent" id="nodejs"></div>
           </div>
           <div class="card col-12 col-sm-11 col-md-5 col-lg-4 col-xl-3">
-            <img class="card-img-top" src="http://fortimelp.fr/274-large_default/formation-jquery-3-jours.jpg" alt="Card image cap">
+            <img class="card-img-top" src="/static/imgs/jquery-logo.png" alt="Card image cap">
             <div class="card-body">
               <p class="card-text">jQuery is a cross-platform JavaScript library designed to simplify the client-side scripting of HTML. It is free, open-source software using the permissive MIT License. jQuery's syntax is designed to make it easier to navigate a document, select DOM elements, create animations, handle events, and develop Ajax applications.</p>
               <small class="text-muted">Developed by: jQuery Team</small>
@@ -366,7 +371,7 @@
             <div class="techPercent" id="jquery"></div>
           </div>
           <div class="card col-12 col-sm-11 col-md-5 col-lg-4 col-xl-3">
-            <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv-GgGSCs9dfk0N61ERKR1QscAQ1Hj7uZV53IP_7alz0a2AHt4LA" alt="Card image cap">
+            <img class="card-img-top" src="/static/imgs/bootstrap-logo.png" alt="Card image cap">
             <div class="card-body">
               <p class="card-text">Bootstrap is a free and open-source front-end library for designing websites and web applications. It contains HTML- and CSS-based design templates for typography, forms, buttons, navigation and other interface components, as well as optional JavaScript extensions. Unlike many web frameworks, it concerns itself with front-end development only</p>
               <small class="text-muted">Developed by: Mark Otto, Jacob Thornton</small>
@@ -386,8 +391,8 @@
           <div class="card-body">
             <h5 class="card-title">Special title treatment</h5>
             <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <img src="http://www.isetr.rnu.tn/img/logo.png" alt="Iset rades logo">
-            <img width="100%" src="http://english.ttransfo.com.tn/english/wp-content/uploads/2015/09/TTF-1.png" alt="TunisieTransfo logo">
+            <img src="/static/imgs/iset-logo.png" alt="Iset rades logo">
+            <img width="100%" src="/static/imgs/tt-logo.png" alt="TunisieTransfo logo">
             <a href="#" class="btn btn-primary">Go somewhere</a>
           </div>
           <div class="card-footer text-muted">
@@ -439,15 +444,15 @@
 
       <div class="section col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" id="contact">
           <div class="chip">
-            <img src="img_avatar.jpg" alt="Person" width="96" height="96">
+            <img src="/static/imgs/img_avatar.jpg" alt="Person" width="96" height="96">
             John Doe
           </div>
           <div class="chip">
-              <img src="img_avatar.jpg" alt="Person" width="96" height="96">
+              <img src="/static/imgs/img_avatar.jpg" alt="Person" width="96" height="96">
               John Doe
             </div> 
           <div class="chip">
-            <img src="img_avatar.jpg" alt="Person" width="96" height="96">
+            <img src="/static/imgs/img_avatar.jpg" alt="Person" width="96" height="96">
             John Doe
           </div> 
       </div>
