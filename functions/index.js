@@ -24,8 +24,8 @@ function checkIfSignedIn(url) {
     if (req.url === url) {
       var sessionCookie = req.cookies.__session || '';
       // User already logged in. Redirect to profile page.
-      admin.auth().verifySessionCookie(sessionCookie).then((decodedClaims) => {
-        return res.redirect('/profile');
+      admin.auth().verifySessionCookie(sessionCookie, true).then((decodedClaims) => {
+        return res.redirect('/dashboard/');
       }).catch((error) => {
         next();
       });
@@ -75,9 +75,7 @@ app.post('/signup/', upload.array(), (req, res) => {
 	})
 	.then((userRecord) => {
 	    // See the UserRecord reference doc for the contents of userRecord.
-	    console.log("Successfully created new user:", userRecord.uid);
 	    var user = db.collection('users').doc(String(userRecord.uid));
-
 		var newUser = user.set({
 		  'firstname': req.body.firstname,
 		  'lastname': req.body.lastname,
@@ -91,18 +89,15 @@ app.post('/signup/', upload.array(), (req, res) => {
 	    return true;
 	})
 	.catch((error) => {
-	    console.log("Error creating new user:", error);
 	    res.send("error");
 	});
-
-	//console.log(req.body);
 })
 
 
 app.post('/sessionLogin/', upload.array(), (req, res) => {
-  // Get the ID token passed and the CSRF token.
-  var idToken = req.body.idToken.toString();
-  var csrfToken = req.body.csrfToken.toString();
+  // Get the ID token passed and the CS0RF token.
+  var idToken = String(req.body.idToken);
+  var csrfToken = String(req.body.csrfToken);
   
   // Guard against CSRF attacks.
   if (!req.cookies || csrfToken !== req.cookies.csrfToken) {
@@ -116,7 +111,8 @@ app.post('/sessionLogin/', upload.array(), (req, res) => {
     // Set cookie policy for session cookie.
     const options = {maxAge: expiresIn, httpOnly: true, secure: true};
     res.cookie('__session', sessionCookie, options);
-    res.send(JSON.stringify({status: 'success' ,cookie: "__session="+sessionCookie+";expires="+expiresIn+";secure=true;httpOnly:true"}));
+    //res.send(JSON.stringify({status: 'success' ,cookie: "__session="+sessionCookie+";expires="+expiresIn+";secure=true;httpOnly:true"}));
+  	res.send(JSON.stringify({status: 'success'}));
   	return res;
   }).catch(error => {
     res.status(403).send('UNAUTHORIZED REQUEST!');
@@ -138,8 +134,7 @@ app.get('/dashboard/', (req, res) => {
     	res.render('pages/dashboard', {username: "medyas"});
     	return true;
   }).catch(error => {
-    //res.redirect('/');
-    res.status(401).send({status:'Not Valid!', error:error});
+    res.redirect('/');
   });
 })
 
@@ -152,7 +147,7 @@ app.get('/profile/', (req, res) => {
     return true;
   }).catch(error => {
     //res.redirect('/');
-    res.status(401).send({status:'Not Valid!', error:error});
+    res.redirect('/');
   });
 });
 

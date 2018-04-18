@@ -207,15 +207,9 @@ function submitSigninForm(){
 	}).then(user => {
 	  // Get the user's ID token as it is needed to exchange for a session cookie.
 	  return user.getIdToken().then(idToken => {
-		return postIdTokenToSessionLogin('/sessionLogin/', idToken);
+		return postIdTokenToSessionLogin('/sessionLogin/', idToken, getCookie('csrfToken'));
 	  });
-	})/*.then(() => {
-	  // A page redirect would suffice as the persistence is set to NONE.
-	  //return firebase.auth().signOut();
-	  // Redirect to profile on success.
-		window.location.assign('/profile/');
-	})*/.catch((error) => {
-	  //window.location.assign('/dashboard/');
+	}).catch((error) => {
 	    var errorCode = error.code;
 	    var errorMessage = error.message;
 	    $("#wrong").text(errorMessage).show();
@@ -224,28 +218,6 @@ function submitSigninForm(){
         $(".modal-content .spinner").hide();
 	});
 
-    /*
-    var url = '/signin/';
-    var formData = $(form).serializeArray();
-
-    $.post(url, formData).done(function (data) {
-        if(data == 'error') {
-            $("#wrong").text("Invalid Email or Password").show();
-            setTimeout(function(){ $("#wrong").hide(); }, 3000);
-            $(".modal-body").show();
-            $(".modal-content .spinner").hide();
-        }
-        else {
-            window.location.replace("/dashboard/");
-        }
-
-    }).fail(function() {
-        $(".modal-content .spinner").hide();
-    	$(".modal-body").show();
-    	$("#wrong").text("Something happend and could not log you in").show();
-        setTimeout(function(){ $("#wrong").hide(); }, 3000);
-  	});
-  	*/
     return false;
 }
 
@@ -295,6 +267,7 @@ function submitSignupForm(){
         else {
         	var email = document.getElementById('email').value;
       		var password = document.getElementById('password').value;
+      		sendEmailVerification();
 
       		firebase.auth().signInWithEmailAndPassword(email, password)
 			.catch(function(error) {
@@ -308,7 +281,7 @@ function submitSignupForm(){
 			}).then(user => {
 			  // Get the user's ID token as it is needed to exchange for a session cookie.
 			  return user.getIdToken().then(idToken => {
-				return postIdTokenToSessionLogin('/sessionLogin/', idToken);
+				return postIdTokenToSessionLogin('/sessionLogin/', idToken, getCookie('csrfToken'));
 			  });
 			}).catch((error) => {
 			  window.location.assign('/');
@@ -325,17 +298,13 @@ function submitSignupForm(){
 }
 
 function getCookie(name) {
-
-    /*var matches = document.cookie.match(new RegExp(
-      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    ));
-    return matches ? decodeURIComponent(matches[1]) : undefined;*/
     var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
 	return v ? v[2] : null;
 }
-function postIdTokenToSessionLogin(url, id) {
+function postIdTokenToSessionLogin(url, id, csrfToken) {
 	var data = {
-		idToken: id
+		idToken: id,
+		csrfToken: csrfToken
 	}
 	//$.redirect(url, data);
 	$.post(url, data).done(function (data) {
@@ -346,10 +315,10 @@ function postIdTokenToSessionLogin(url, id) {
             $(".modal-content .spinner").hide();
         }
         else {
-        	document.cookie = JSON.parse(data).cookie;
+        	/*document.cookie = JSON.parse(data).cookie;
         	console.log(JSON.parse(data).cookie);
-        	console.log("cookie: "+document.cookie);
-            //window.location.replace("/dashboard/");
+        	console.log("cookie: "+document.cookie);*/
+            window.location.replace("/dashboard/");
         }
 
     }).fail(function() {
@@ -361,6 +330,22 @@ function postIdTokenToSessionLogin(url, id) {
 
 }
 
+/**
+ * ReAuth User.
+ */
+function onIdTokenRevocation() {
+  // For an email/password user. Prompt the user for the password again.
+  let password = prompt('Please provide your password for reauthentication');
+  let credential = firebase.auth.EmailAuthProvider.credential(
+      firebase.auth().currentUser.email, password);
+  firebase.auth().currentUser.reauthenticateWithCredential(credential)
+    .then(result => {
+      // User successfully reauthenticated. New ID tokens should be valid.
+    })
+    .catch(error => {
+      // An error occurred.
+    });
+}
 /**
  * Sends an email verification to the user.
  */
@@ -375,7 +360,8 @@ function sendEmailVerification() {
   // [END sendemailverification]
 }
 function sendPasswordReset() {
-  var email = document.getElementById('email').value;
+  var email = prompt('Please provide your email to reset you password');
+//document.getElementById('email').value;
   // [START sendpasswordemail]
   firebase.auth().sendPasswordResetEmail(email).then(function() {
     // Password Reset Email Sent!
@@ -397,6 +383,7 @@ function sendPasswordReset() {
   });
   // [END sendpasswordemail];
 }
+
 /* --------------------------------------------------------------- */
 
 function openTab(evt, tab) {
@@ -432,9 +419,33 @@ function openTab(evt, tab) {
 } 
 /* --------------------------------------------------------------- */
 /*
+signout
 firebase.auth().signOut().then(function() {
   // Sign-out successful.
 }).catch(function(error) {
   // An error happened.
 });
+
+update profile
+var user = firebase.auth().currentUser;
+user.updateProfile({
+  displayName: "Jane Q. User",
+  photoURL: "https://example.com/jane-q-user/profile.jpg"
+}).then(function() {
+  // Update successful.
+}).catch(function(error) {
+  // An error happened.
+});
+
+reAuth
+const credential = firebase.auth.EmailAuthProvider.credential(
+    user.email, 
+    userProvidedPassword
+);
+user.reauthenticateWithCredential(credential).then(function() {
+  // User re-authenticated.
+}).catch(function(error) {
+  // An error happened.
+});
+
 */
