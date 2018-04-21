@@ -42,6 +42,30 @@ function attachCsrfToken(url, cookie, value) {
     next();
   }
 }
+function isAuthenticated(req, res, next) {
+	/*
+	const sessionCookie = req.cookies.__session || '';
+    admin.auth().verifySessionCookie(
+	    sessionCookie, true).then((decodedClaims) => {
+	    	admin.auth().getUser(decodedClaims.uid).then((userRecord) => {
+			  // The claims can be accessed on the user record.
+			  //console.log(userRecord.customClaims.admin);
+			  res.locals.admin = userRecord.customClaims.admin;
+			  res.locals.supervisor = userRecord.customClaims.supervisor;
+			  return next();
+			}).catch(error => {
+				res.redirect('/');
+			});
+			return true;
+	  }).catch(error => {
+	    res.redirect('/');
+	  });
+	*/
+	res.locals.admin = true;
+	res.locals.supervisor = true;
+	next()
+	
+}
 
 
 var app = express();
@@ -52,7 +76,7 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(cookieParser())
 // Attach CSRF token on each request.
-app.use(attachCsrfToken('/', 'csrfToken', (Math.random()* 100000000000000000).toString()));
+//app.use(attachCsrfToken('/', 'csrfToken', (Math.random()* 100000000000000000).toString()));
 // If a user is signed in, redirect to profile page.
 app.use(checkIfSignedIn('/'));
 
@@ -81,7 +105,6 @@ app.post('/signup/', upload.array(), (req, res) => {
 		  'lastname': req.body.lastname,
 		  'username': req.body.username,
 		  'email': req.body.email,
-		  'admin': false,
 		  'uid': userRecord.uid
 		});
 		
@@ -120,37 +143,135 @@ app.post('/sessionLogin/', upload.array(), (req, res) => {
 
 });
 
+/*admin.auth().setCustomUserClaims('JV4B09DOwvbmiYLzfdr9XOVN26q2', {admin: true, supervisor: true}).then(() => {
+// The new custom claims will propagate to the user's ID token the
+// next time a new one is issued.
+// Update real-time database to notify client to force refresh.
+        const metadataRef = admin.database().ref("metadata/JV4B09DOwvbmiYLzfdr9XOVN26q2" );
+        // Set the refresh time to the current UTC timestamp.
+        // This will be captured on the client to force a token refresh.
+        console.log("done");
+        return metadataRef.set({refreshTime: new Date().getTime()});
+}).catch(error => {
+        console.log(error);
+      });
 
-app.get('/set/:id', (req, res) => {
-	console.log(req.params.id);
-	res.status(403).send('Unauthorized');
-	//res.redirect('/');
-})
+admin.auth().verifyIdToken(idToken).then((claims) => {
+   if (claims.admin === true) {
+     // Allow access to requested admin resource.
+   }
+ });
 
-app.get('/dashboard/', (req, res) => {
-	const sessionCookie = req.cookies.__session || '';
-    admin.auth().verifySessionCookie(
-    sessionCookie, true /** checkRevoked */).then((decodedClaims) => {
-    	res.render('pages/dashboard', {username: "medyas"});
-    	return true;
-  }).catch(error => {
-    res.redirect('/');
-  });
-})
+const customClaims = {
+      admin: true,
+      supervisor: true
+    };
+    // Set custom user claims on this newly created user.
+    return admin.auth().setCustomUserClaims(user.uid, customClaims)
+      .then(() => {
+        // Update real-time database to notify client to force refresh.
+        const metadataRef = admin.database().ref("metadata/" + user.uid);
+        // Set the refresh time to the current UTC timestamp.
+        // This will be captured on the client to force a token refresh.
+        return metadataRef.set({refreshTime: new Date().getTime()});
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+admin.auth().getUser(uid).then((userRecord) => {
+  // The claims can be accessed on the user record.
+  console.log(userRecord.customClaims.admin);
+});
+*/
+
 
 // Whenever a user is accessing restricted content that requires authentication.
-app.get('/profile/', (req, res) => {
-  const sessionCookie = req.cookies.__session || '';
-  admin.auth().verifySessionCookie(
-    sessionCookie, true /** checkRevoked */).then((decodedClaims) => {
-    res.send(decodedClaims.uid);
-    return true;
-  }).catch(error => {
-    //res.redirect('/');
-    res.redirect('/');
-  });
+app.get('/dashboard/', isAuthenticated, (req, res) => {
+	res.render('pages/dashboard', {css: "dashboard.css", js: "dashboard.js", current: "<i class='fas fa-home icon'></i> Dashboard", admin: res.locals.admin});
+})
+
+app.get('/transformer/', isAuthenticated, (req, res) => {
+	res.render('pages/transformer', {css: "transformer.css", js: "transformer.js", current: '<i class="fas fa-bolt icon"></i> Transformer', admin: res.locals.admin});
 });
 
+app.get('/statistic/', isAuthenticated, (req, res) => {
+	res.render('pages/statistic', {css: "statistic.css", js: "statistic.js", current: '<i class="fas fa-chart-line icon"></i> Statistic', admin: res.locals.admin});
+});
+
+app.get('/services/', isAuthenticated, (req, res) => {
+	res.render('pages/services', {css: "services.css", js: "services.js", current: '<i class="fas fa-cogs icon"></i> Services', admin: res.locals.admin});
+});
+
+app.get('/products/', isAuthenticated, (req, res) => {
+	res.render('pages/products', {css: "products.css", js: "products.js", current: '<i class="fas fa-cart-plus icon"></i> Products', admin: res.locals.admin});
+});
+
+app.get('/settings/', isAuthenticated, (req, res) => {
+	res.render('pages/settings', {css: "settings.css", js: "settings.js", current: '<i class="fas fa-wrench icon"></i> Settings', admin: res.locals.admin});
+});
+
+app.get('/support/', isAuthenticated, (req, res) => {
+	res.render('pages/support', {css: "support.css", js: "support.js", current: '<i class="fas fa-question-circle icon"></i> Support', admin: res.locals.admin});
+});
+
+app.get('/account/', isAuthenticated, (req, res) => {
+	res.render('pages/account', {css: "account.css", js: "account.js", current: '<i class="fas fa-user"></i> Account', admin: res.locals.admin});
+});
+
+/*
+** ---------------------------------------------------------------------
+** 		Admin Panel 
+*/
+
+app.get('/console/', isAuthenticated, (req, res) => {
+	if(res.locals.admin) {
+		  res.render('pages/console', {css: "console.css", js: "console.js", current: '<i class="fas fa-home ad-icon"></i> Admin Console', admin: res.locals.admin});
+
+	}
+	else {
+		res.redirect("/");
+	}
+});
+
+app.get('/console/itransfo', isAuthenticated, (req, res) => {
+	if(res.locals.admin) {
+		res.render('pages/itransfo', {css: "itransfo.css", js: "itransfo.js", current: '<i class="fas fa-bolt ad-icon"></i> ITransfo', admin: res.locals.admin});
+
+	}
+	else {
+		res.redirect("/");
+	}
+});
+
+app.get('/console/clients', isAuthenticated, (req, res) => {
+	if(res.locals.admin) {
+		  res.render('pages/clients', {css: "clients.css", js: "clients.js", current: '<i class="fas fa-users ad-icon"></i> Clients', admin: res.locals.admin});
+	}
+	else {
+		res.redirect("/");
+	}
+});
+
+app.get('/console/linkproducts', isAuthenticated, (req, res) => {
+	if(res.locals.admin) {
+		  res.render('pages/linkproducts', {css: "linkproducts.css", js: "linkproducts.js", current: '<i class="fas fa-plus-circle ad-icon"></i> Link Products', admin: res.locals.admin});
+	}
+	else {
+		res.redirect("/");
+	}
+
+});
+
+app.get('/console/settings', isAuthenticated, (req, res) => {
+	if(res.locals.admin) {
+		res.render('pages/adSettings', {css: "adSettings.css", js: "adSettings.js", current: '<i class="fas fa-wrench ad-icon"></i> Settings', admin: res.locals.admin});
+	}
+	else {
+		res.redirect("/");
+	}
+  
+});
 
 app.get('/signout/', (req, res) => {
   // Clear cookie.

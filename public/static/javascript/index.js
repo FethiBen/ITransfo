@@ -5,60 +5,49 @@ if(mobile) {
 }
 /* --------------------------------------------------------------- */
 ;(function(){
-          function id(v){ return document.getElementById(v); }
-          function loadbar() {
-            var ovrl = id("overlay"),
-                prog = id("progress"),
-                stat = id("progstat"),
-                img = document.images,
-                c = 0,
-                tot = img.length;
-            if(tot == 0) return doneLoading();
+  function id(v){ return document.getElementById(v); }
+  function loadbar() {
+    var ovrl = id("overlay"),
+        prog = id("progress"),
+        stat = id("progstat"),
+        img = document.images,
+        c = 0,
+        tot = img.length;
+    if(tot == 0) return doneLoading();
 
-            function imgLoaded(){
-              c += 1;
-              var perc = ((100/tot*c) << 0) +"%";
-              prog.style.width = perc;
-              stat.innerHTML = "Loading "+ perc;
-              if(c===tot) return doneLoading();
-            }
-            function doneLoading(){
-              ovrl.style.opacity = 0;
-              setTimeout(function(){ 
-                ovrl.style.display = "none";
-              }, 1200);
-            }
-            for(var i=0; i<tot; i++) {
-              var tImg     = new Image();
-              tImg.onload  = imgLoaded;
-              tImg.onerror = imgLoaded;
-              tImg.src     = img[i].src;
-            }    
-          }
-          document.addEventListener('DOMContentLoaded', loadbar, false);
+    function imgLoaded(){
+      c += 1;
+      var perc = ((100/tot*c) << 0) +"%";
+      prog.style.width = perc;
+      stat.innerHTML = "Loading "+ perc;
+      if(c===tot) return doneLoading();
+    }
+    function doneLoading(){
+      ovrl.style.opacity = 0;
+      setTimeout(function(){ 
+        ovrl.style.display = "none";
+      }, 1200);
+    }
+    for(var i=0; i<tot; i++) {
+      var tImg     = new Image();
+      tImg.onload  = imgLoaded;
+      tImg.onerror = imgLoaded;
+      tImg.src     = img[i].src;
+    }    
+  }
+  document.addEventListener('DOMContentLoaded', loadbar, false);
 }());
 /* --------------------------------------------------------------- */
 
 $( document ).ready(function() {
       // [START authstatelistener]
-
   firebase.auth().onAuthStateChanged(function(user) {
     // [END_EXCLUDE]
     if (user) {
       // User is signed in.
       //window.location.replace("/dashboard/");
-      var displayName = user.displayName;
-      var email = user.email;
-      var emailVerified = user.emailVerified;
-      var photoURL = user.photoURL;
-      var isAnonymous = user.isAnonymous;
-      var uid = user.uid;
-      var providerData = user.providerData;
       // [START_EXCLUDE]
-      if (!emailVerified) {
-        console.log("not verified");
-      }
-      // [END_EXCLUDE]
+      
     } else {
       // User is signed out.
       console.log("signed out");
@@ -196,6 +185,7 @@ function submitSigninForm(){
     // When the user signs in with email and password.
 	firebase.auth().signInWithEmailAndPassword(email, password)
 	.catch(function(error) {
+		console.log(error);
 		// Handle Errors here.
 		  var errorCode = error.code;
 		  var errorMessage = error.message;
@@ -267,26 +257,23 @@ function submitSignupForm(){
         else {
         	var email = document.getElementById('email').value;
       		var password = document.getElementById('password').value;
-      		sendEmailVerification();
-
-      		firebase.auth().signInWithEmailAndPassword(email, password)
-			.catch(function(error) {
-				// Handle Errors here.
-				var errorCode = error.code;
-				var errorMessage = error.message;
-				$("#wrong").text(errorMessage).show();
-		        setTimeout(function(){ $("#wrong").hide(); }, 3000);
-		        $(".modal-body").show();
-		        $(".modal-content .spinner").hide();
-			}).then(user => {
-			  // Get the user's ID token as it is needed to exchange for a session cookie.
-			  return user.getIdToken().then(idToken => {
-				return postIdTokenToSessionLogin('/sessionLogin/', idToken, getCookie('csrfToken'));
-			  });
-			}).catch((error) => {
-			  window.location.assign('/');
-			});
-
+      			firebase.auth().signInWithEmailAndPassword(email, password)
+				.catch(function(error) {
+					// Handle Errors here.
+					var errorCode = error.code;
+					var errorMessage = error.message;
+					$("#wrong").text(errorMessage).show();
+			        setTimeout(function(){ $("#wrong").hide(); }, 3000);
+			        $(".modal-body").show();
+			        $(".modal-content .spinner").hide();
+				}).then(user => {
+				  // Get the user's ID token as it is needed to exchange for a session cookie.
+				  return user.getIdToken().then(idToken => {
+					return postIdTokenToSessionLogin('/sessionLogin/', idToken, getCookie('csrfToken'));
+				  });
+				}).catch((error) => {
+				  window.location.assign('/');
+				});
         }
     }).fail(function() {
         $(".modal-content .spinner").hide();
@@ -346,19 +333,7 @@ function onIdTokenRevocation() {
       // An error occurred.
     });
 }
-/**
- * Sends an email verification to the user.
- */
-function sendEmailVerification() {
-  // [START sendemailverification]
-  firebase.auth().currentUser.sendEmailVerification().then(function() {
-    // Email Verification sent!
-    // [START_EXCLUDE]
-    alert('Email Verification Sent!');
-    // [END_EXCLUDE]
-  });
-  // [END sendemailverification]
-}
+
 function sendPasswordReset() {
   var email = prompt('Please provide your email to reset you password');
 //document.getElementById('email').value;
@@ -385,6 +360,7 @@ function sendPasswordReset() {
 }
 
 /* --------------------------------------------------------------- */
+
 
 function openTab(evt, tab) {
     // Declare all variables

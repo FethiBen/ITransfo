@@ -7,222 +7,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="public, max-age=86400">
 
+<!-- Import and configure the Firebase SDK -->
+  <!-- These scripts are made available when the app is served or deployed on Firebase Hosting -->
+  <!-- If you do not serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup -->
+    <script defer src="/__/firebase/4.13.0/firebase-app.js"></script>
+    <script defer src="/__/firebase/4.13.0/firebase-auth.js"></script>
+    <script defer src="/__/firebase/4.13.0/firebase-database.js"></script>
+    <script defer src="/__/firebase/init.js"></script>
+
   <link rel="stylesheet" defer href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
 <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 
+
 <!-- <script defer type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script> -->
 <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" async integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
 
-<script defer type="text/javascript" src="/static/javascript/progressbar.js"></script>
+<script defer type="text/javascript" src="https://rawgit.com/kimmobrunfeldt/progressbar.js/master/dist/progressbar.js"></script>
 
-  <link defer rel="stylesheet" type="text/css" href="static/css/header.css">
-  <script defer type="text/javascript" src="static/javascript/header.js"></script>
-  <script defer type="text/javascript" src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
-<!-- Import and configure the Firebase SDK -->
-  <!-- These scripts are made available when the app is served or deployed on Firebase Hosting -->
-  <!-- If you do not serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup -->
-    <script defer src="/__/firebase/4.12.1/firebase-app.js"></script>
-    <script defer src="/__/firebase/4.12.1/firebase-auth.js"></script>
-    <script defer src="/__/firebase/init.js"></script>
-<style type="text/css">
-@font-face {
-font-family: 'Fredericka the Great';
-font-style: normal;
-font-weight: 400;
-src: local('Fredericka the Great'), local('FrederickatheGreat'), url(https://fonts.gstatic.com/s/frederickathegreat/v6/9Bt33CxNwt7aOctW2xjbCstzwVKsIBVV--Sjxbc.woff2) format('woff2');
-unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-font-family: "Dancing Script";
-src: url("fonts/DancingScript-Bold.ttf");
-src:url("fonts/DancingScript-Regular.ttf");
-}
-body {
-  font-family: 'Times new romain', 'serif';
-}
-#alert {
-  position: fixed;
-  top: 0px;
-  text-align: center;
-  z-index: 99999;
-}
+  <link defer rel="stylesheet" type="text/css" href="/static/css/header.css">
+  <script defer type="text/javascript" src="/static/javascript/header.js"></script>
 
-   /* The sidebar menu */
-.sidenav {
-    height: 100%; /* Full-height: remove this if you want "auto" height */
-    width: 15%; /* Set the width of the sidebar */
-    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-    z-index: 1; /* Stay on top */
-    top: 0; /* Stay at the top */
-    left: 0;
-    background-color: #19212b; /* Black */
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 20px;
-}
-/* The navigation menu links */
-.sidenav a {
-    padding: 6px 8px 6px 16px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-}
-/* When you mouse over the navigation links, change their color */
-.sidenav a:hover {
-    color: #f1f1f1;
-}
+  <link defer rel="stylesheet" href="/static/css/<%= css %>">
+  <script defer type="text/javascript" src="/static/javascript/<%= js %>"></script>
 
-.navbar {
-  width: 85%;
-  position: fixed;
-  left: 15%;
-  background-color: #17a2b8;
-  color: white;
-}
-.navbar a {
-  color: white;
-}
-#user #profile-menu {
-  display: block;
-  position: absolute;
-  top: 45px;
-  right: 0px;
-  z-index: 1000;
-  float: left;
-  margin: 1px;
-  border: 1px solid rgba(0,0,0,.15);
-  background-color: white;
 
-}
-#upper-div {
-  z-index: 99999;
-  position: absolute;
-  border-width: 15px;
-  border-style: solid;
-  border-color: transparent transparent white transparent;
-  top: -30px;
-  right: 0%;
-}
-.navbar-brand {
-  font-family: 'Fredericka the Great', cursive;
-  font-size: 120%;
-  color: white !important;
-}
-#up-menu {
-  background-color: #262f3d;
-}
-#itransfo-logo {
-  margin: 5% 0px;
-}
-#itransfo-logo #cloud {
-  color: white;
-  top: 0px;
-}
-#itransfo-logo #power {
-  position: absolute;
-  top: 55px;
-  margin-left: -47px;
-  color: #cfd8dc; 
-  z-index: 10;
-}
-#projects {
-  margin: 5% 0px;
-}
-#projects a, #projects #headerDivider {
-  display: inline;
-}
-#projects #headerDivider {
-  height: auto;
-  border-left: 1px solid white;
-}
-#my-projects {
-  color: #17a2b8;
-}
-#settings {
-  color: white;
-}
-#menu {
-  margin-top: 5%;
-}
-#menu li {
-  list-style: none;
-  margin: 2px;
-}
-#menu li:hover {
-  color: white;
-  border-bottom: 1px solid white;
-}
-#menu .icon {
-  width: 32px;
-  margin: 2px;
-}
-#menu ul {
-  padding: 0px;
-}
-/* Style page content */
-section {
-    margin-left: 15%; /* Same as the width of the sidebar */
-    padding: 0px 10px;
-    width: 85%;
-    background-color: #cfd8dc;
-    height: auto;
-}
-.container {
-  width: 100%;
-  height: 3000px;
-  background-color: transparent;
-}
-
-footer {
-  text-align: center;
-  background-color: #19212b;
-  color: white;
-}
-footer #footer-menu {
-  margin: 0px auto;
-}
-footer span {
-    font-family: 'Dancing Script', cursive;
-}
-/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
-@media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
-}
-</style>
   </head>
   <body>
     <div class="alert alert-warning offset-md-3" id="alert" role="alert">
-      A simple warning alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like. <i class="fas fa-times"></i>
+      A confirmation Email has been sent, click on the provided link to confirm you email. <a href="#" onclick="sendEmailVerification()" class="alert-link">Didn't receive one, request another.</a> <i class="fas fa-times" style="cursor: pointer;" onclick="hideEmailnotfy()"></i>
     </div>
-    <nav class="navbar navbar-expand-lg">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbar-menu">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-          <li class="nav-item active">
-            <a class="nav-link" href="#"><i class="fas fa-home"></i> Dashboard</span></a>
-          </li>
-        </ul>
-        <div id="user" class="dropright">
-          <button><i class="fas fa-user"></i> medyas <i class="fas fa-ellipsis-v"></i></button>
-          <div id="profile-menu">
-            <span id="upper-div"></span>
-            <div id="profile-setting">
-              <button class="dropdown-item" type="button"><i class="fas fa-user-circle"></i> Action</button>
-              <button class="dropdown-item" type="button">Another action</button>
-              <button class="dropdown-item" type="button"><i class="fas fa-sign-out-alt"></i> Something else here</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
     <!-- Side navigation -->
-    <div class="sidenav">
+    <div class="sidenav" id="mySidenav">
       <div id="up-menu">
         <div id="itransfo-logo">
           <a class="navbar-brand" href="/">
@@ -232,26 +50,61 @@ footer span {
               ITransfo
             </div></a>
         </div>
-        <div class="dropdown-divider"></div>
-        <div id="projects">
-          <a href="" id="my-projects"><i class="fas fa-exclamation-circle"></i> My Projects</a>
-          <div id="headerDivider"></div>
-          <a href="" id="settings"><i class="fas fa-cog"></i> <i class="fas fa-angle-right"></i></a>
+        <% if (admin) { %>
+          <div class="dropdown-divider"></div>
+        <div id="admin-panel">
+          <a data-toggle="collapse" href="#collapseAdmin" id="my-admin"><i class="fas fa-cog icon"></i> Admin Panel
+            <i id="admin-angle-down" class="fas fa-angle-down"></i></a>
+           <div class="collapse menu" id="collapseAdmin">
+              <ul>
+                <li class="menu-item"><a href="/console/"><i class="fas fa-home ad-icon"></i> Admin Console</a></li>
+                <li class="menu-item"><a href="/console/itransfo"><i class="fas fa-bolt ad-icon"></i> ITransfos</a></li>
+                <li class="menu-item"><a href="/console/clients/"><i class="fas fa-users ad-icon"></i> Clients</a></li>
+                <li class="menu-item"><a href="/console/linkproducts/"><i class="fas fa-plus-circle ad-icon"></i> Link Products</a></li>
+                <li class="menu-item"><a href="/console/settings/"><i class="fas fa-wrench ad-icon"></i> Settings</a></li>
+              </ul>
+          </div>
         </div>
+        <% } %>
+        
         <div class="dropdown-divider"></div>
       </div>
-      <div id="menu">
+      <div class="menu">
         <ul>
-          <li class="menu-item"><a href=""><i class="fas fa-home icon"></i> Dashboard</a></li>
-          <li class="menu-item"><a href=""><i class="fas fa-bolt icon"></i> Transformer</a></li>
-          <li class="menu-item"><a href=""><i class="fas fa-chart-line icon"></i> Statistic</a></li>
-          <li class="menu-item"><a href=""><i class="fas fa-cogs icon"></i> Services</a></li>
-          <li class="menu-item"><a href=""><i class="fas fa-wrench icon"></i> Settings</a></li>
-          <li class="menu-item"><a href="#"><i class="fas fa-question-circle icon"></i> Support</a></li>
+          <li class="menu-item"><a href="/dashboard/"><i class="fas fa-home icon"></i> Dashboard</a></li>
+          <li class="menu-item"><a href="/transformer/"><i class="fas fa-bolt icon"></i> Transformer</a></li>
+          <li class="menu-item"><a href="/statistic/"><i class="fas fa-chart-line icon"></i> Statistic</a></li>
+          <li class="menu-item"><a href="/services/"><i class="fas fa-cogs icon"></i> Services</a></li>
+          <li class="menu-item"><a href="/products/"><i class="fas fa-cart-plus icon"></i> Products</a></li>
+          <li class="menu-item"><a href="/settings/"><i class="fas fa-wrench icon"></i> Settings</a></li>
+          <li class="menu-item"><a href="/support/"><i class="fas fa-question-circle icon"></i> Support</a></li>
         </ul>
       </div>
-      
     </div>
-<section>
-  <div class="container"></div>
-</section>
+
+    <nav class="navbar">
+      <div style="cursor: pointer;" onclick="sideMenuToggle()"><i class="fas fa-bars"></i></div>
+      <a class="nav-link" href="#"><%- current %></a>
+        <div id="user" class="dropright">
+          <div onclick="profileMenu()" style="cursor: pointer;"><i class="fas fa-user"></i> <i class="fas fa-ellipsis-v"></i></div>
+          <div id="profile-menu" style="display: none;">
+            <span id="upper-div"></span>
+            <div id="profile-setting">
+              <div id="profile-info">
+                <div style="font-size: 40px; text-align: center;" class="col-4 col-sm-4 col-md-4 col-lg-3 col-xl-3"><i class="fas fa-user-circle"></i></div>
+                <div class="col-7 col-sm-7 col-md-7 col-lg-8 col-xl-8"><p id="username"></p><p id="useremail" class="form-text text-muted"></p></div>
+              </div>
+              <div id="profile-actions">
+                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6"><a href="/account/"><i class="fas fa-user"></i> Account</a></div>
+                <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5"><a id="signout" onclick="signOut()" href="#"><i class="fas fa-sign-out-alt"></i> SignOut</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <section>
+      <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+      </div>
