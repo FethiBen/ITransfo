@@ -1,7 +1,17 @@
 var sideNavWidth;
+$('#main').css({"height": window.innerHeight+"px"});
+
 $(document ).ready(function() {
   sideNavWidth = $(".sidenav").css("width");
+  $('.spinner').css({"visibility": "hidden"});
       // [START authstatelistener]
+      var user = firebase.auth().currentUser;
+      if (user) {
+        // User is signed in.
+      } else {
+        // No user is signed in.
+      }
+
   firebase.auth().onAuthStateChanged(function(user) {
     // [END_EXCLUDE]
     if (user) {
@@ -36,8 +46,29 @@ $(document ).ready(function() {
   }, function() {
     $("#admin-angle-down").hide();
   });
+
+/* --------------------------------------------------------------- */
+
+  $('.mainContainer').click(function(event) {
+    event.preventDefault();
+    $('.spinner').css({"visibility": "visible"});
+    var url = $(this).attr('href');
+    location.hash = url;
+    $('.nav-link').html($(this).html());
+    $('.mainContainer').parent().removeClass('active');
+    $(this).parent().addClass('active');
+    $.post(url, function(data) {
+      $("#main").html(data);
+      $('.spinner').css({"visibility": "hidden"});
+    }).fail(function(error) {
+      $("#main").html('Could not Get The WebPage :(</br>Please retray again.');
+      $('.spinner').css({"visibility": "hidden"});
+    });
+  })
 });
 
+
+/* --------------------------------------------------------------- */
 function hideEmailnotfy() {
   $("#alert").hide();
 }
@@ -74,11 +105,21 @@ function sideMenuToggle() {
     $(".sidenav").css({"width":"0%"});
     $(".navbar").css({"left":"0%", "width": "100%"});
     $("section").css({"margin-left":"0%", "width": "100%"});
+    $("footer").css({"margin-left":"0%", "width": "100%"});
   }
   else {
     $(".sidenav").css({"width":sideNavWidth});
-    $(".navbar").css({"left":sideNavWidth, "width": String(parseInt(window.innerWidth)- parseInt(sideNavWidth))});
-    $("section").css({"margin-left":sideNavWidth, "width": String(parseInt(window.innerWidth)- parseInt(sideNavWidth))});
+    $(".navbar").css({"left":sideNavWidth, "width": String(parseInt(((parseInt(innerWidth) - parseInt(sideNavWidth)) *100 )/ parseInt(innerWidth))+"%")});
+    $("section").css({"margin-left":sideNavWidth, "width": String(parseInt(((parseInt(innerWidth) - parseInt(sideNavWidth)) *100 )/ parseInt(innerWidth))+"%")});   
+    $("footer").css({"margin-left":sideNavWidth, "width": String(parseInt(((parseInt(innerWidth) - parseInt(sideNavWidth)) *100 )/ parseInt(innerWidth))+"%")});
   }
+}
+
+function copyToClipboard(text) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val(text).select();
+  document.execCommand("copy");
+  $temp.remove();
 }
 

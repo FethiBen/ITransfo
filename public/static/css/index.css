@@ -276,6 +276,8 @@ header {
 }
 nav {
   background-color: transparent;
+  width: 100%;
+  z-index: 16;
 }
 nav a {
     color: white !important;
@@ -326,6 +328,7 @@ nav a {
 
 section {
   width: 100%;
+  padding: 0px;
 }
 #hero-text {
     text-align: center;
@@ -358,7 +361,6 @@ section {
 }
 #technology .card {
   padding: 0px;
-  margin: 10px;
   display: inline-block;
   overflow: hidden;
   cursor: pointer;

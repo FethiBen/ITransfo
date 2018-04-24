@@ -108,10 +108,10 @@ $( document ).ready(function() {
 	window.onscroll = function() {
 	  var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
 	  if(winScroll > parseInt($("header").css("height"))-50) {
-	  	$("nav").css({"position": "fixed", "top": "0px", "background-color": "#343a40", "width": "100%", "z-index": "16"});
+	  	$("nav").css({"position": "fixed", "top": "0px", "background-color": "#343a40"});
 	  }
 	  else {
-	  	$("nav").css({"position": "relative", "background-color": "transparent", "width": "100%", "z-index": "16"});
+	  	$("nav").css({"position": "relative", "background-color": "transparent"});
 	  }
 	  if (winScroll > 60) {
 	  	document.getElementById("myBar").style.visibility = "visible";

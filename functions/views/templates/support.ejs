@@ -1,5 +1,20 @@
+<style>
 
-  <div id="main">
+</style>
+<div id="container">
 
-  </div>
-</section>
+<script>
+	var users;
+$(document ).ready(function() {
+	$.post('/console/getclients', function(data) {
+		$(".spinner").css({"visibility": "hidden"});
+		data.forEach(function(user) {console.log(user.uid);});
+		users = data;
+		
+	}).fail(function(data) {
+		$(".spinner").css({"visibility": "hidden"});
+		console.log("error");
+	});
+});
+</script>
+</div>
