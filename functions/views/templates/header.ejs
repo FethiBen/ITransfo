@@ -26,13 +26,15 @@
 <script async type="text/javascript" src="https://rawgit.com/kimmobrunfeldt/progressbar.js/master/dist/progressbar.js"></script>
 <script defer type="text/javascript" src="/static/javascript/jquery.easy-autocomplete.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
   <link defer rel="stylesheet" type="text/css" href="/static/css/header.css">
   <script defer type="text/javascript" src="/static/javascript/header.js"></script>
   <script defer type="text/javascript" src="/static/javascript/dashboard.js"></script>
 
   </head>
-  <body>
-    <div class="alert alert-warning offset-md-3" id="alert" role="alert">
+  <body><!-- offset-md-3 -->
+    <div class="alert alert-warning" id="alert" role="alert">
       A confirmation Email has been sent, click on the provided link to confirm you email. <a href="#" onclick="sendEmailVerification()" class="alert-link">Didn't receive one, request another.</a> <i class="fas fa-times" style="cursor: pointer;" onclick="hideEmailnotfy()"></i>
     </div>
     <div class="alert alert-success" role="alert"></div>
@@ -107,4 +109,7 @@
         <div class="bounce2"></div>
         <div class="bounce3"></div>
       </div>
+      <div id="main">
+      </div>
+    </secton>
 

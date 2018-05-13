@@ -162,6 +162,9 @@
 		display: ;
 	}
 }
+.device-uid {
+	display: none;
+}
 </style>
 <div id="container">
 	<div id="add-device" class='col-12 col-sm-12 col-md-11 col-lg-10 col-xl-10'>
@@ -178,8 +181,9 @@
 					<input id="device-name" type="text" name="device-name" placeholder="Device Name" required></div>
 				<div class='col-12 col-sm-12 col-md-5 col-lg-4 col-xl-5'>
 					<input id="device-ref" type="text" name="device-ref" placeholder="Device Ref" disabled></div>
-				<div class='col-12 col-sm-12 col-md-5 col-lg-4 col-xl-5'>
+				<!--<div class='col-12 col-sm-12 col-md-5 col-lg-4 col-xl-5'>
 					<input id="device-uid" type="text" name="device-uid" placeholder="Device UID" disabled></div>
+				-->
 				<div id="save-device" class='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12'><input type="submit" value="Add Device"></div>
 			</div>
 		</div>
@@ -271,6 +275,20 @@ $(document ).ready(function() {
 				$('.alert-success').hide();
 				deviceData();
 			}, 1500);
+			var data = {
+				'device_ref': $('#add-form #device-ref').val(),
+				'pri_voltage': 15,
+				'sec_voltage': 15,
+				'pri_current': 15,
+				'sec_current': 15,
+				'internal_temp': 60,
+				'external_temp': 45
+			}
+			$.post('http://ec2-54-200-146-66.us-west-2.compute.amazonaws.com/setprameters/', data, function(data) {
+				console.log(data);
+		    }).fail(function(error) {
+		    	console.log(error);
+		    });
 		}).fail(function(error) {
 			$('.alert-danger').text('Could not save the new Device').show();
 			setTimeout(function() {

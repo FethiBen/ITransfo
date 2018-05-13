@@ -2,6 +2,15 @@ var sideNavWidth;
 $('#main').css({"height": window.innerHeight+"px"});
 
 $(document ).ready(function() {
+  $('.spinner').css({"visibility": "visible"});
+  $.post("/dashboard/", function(data) {
+      $("#main").html(data);
+      $('.spinner').css({"visibility": "hidden"});
+    }).fail(function(error) {
+      $("#main").html('Could not Get The WebPage :(</br>Please retray again.');
+      $('.spinner').css({"visibility": "hidden"});
+    });
+
   sideNavWidth = $(".sidenav").css("width");
   $('.spinner').css({"visibility": "hidden"});
       // [START authstatelistener]
@@ -105,13 +114,13 @@ function sideMenuToggle() {
     $(".sidenav").css({"width":"0%"});
     $(".navbar").css({"left":"0%", "width": "100%"});
     $("section").css({"margin-left":"0%", "width": "100%"});
-    $("footer").css({"margin-left":"0%", "width": "100%"});
+    //$("footer").css({"margin-left":"0%", "width": "100%"});
   }
   else {
     $(".sidenav").css({"width":sideNavWidth});
     $(".navbar").css({"left":sideNavWidth, "width": String(parseInt(((parseInt(innerWidth) - parseInt(sideNavWidth)) *100 )/ parseInt(innerWidth))+"%")});
     $("section").css({"margin-left":sideNavWidth, "width": String(parseInt(((parseInt(innerWidth) - parseInt(sideNavWidth)) *100 )/ parseInt(innerWidth))+"%")});   
-    $("footer").css({"margin-left":sideNavWidth, "width": String(parseInt(((parseInt(innerWidth) - parseInt(sideNavWidth)) *100 )/ parseInt(innerWidth))+"%")});
+    //$("footer").css({"margin-left":sideNavWidth, "width": String(parseInt(((parseInt(innerWidth) - parseInt(sideNavWidth)) *100 )/ parseInt(innerWidth))+"%")});
   }
 }
 

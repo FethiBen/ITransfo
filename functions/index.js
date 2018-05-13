@@ -36,7 +36,7 @@ function checkIfSignedIn(url) {
         next();
       });
     } else {
-      return next();
+       return next();
     }
   }
 }
@@ -83,7 +83,7 @@ var app = express();
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true, inflate: true })); // for parsing application/x-www-form-urlencoded
 app.use(cookieParser());
 
 // Attach CSRF token on each request.
@@ -119,6 +119,7 @@ app.post('/signup/', upload.array(), (req, res) => {
 		  'username': req.body.username,
 		  'email': req.body.email,
 		  'uid': userRecord.uid,
+		  'appToken': '',
 		  'company': '',
 		  'admin': 'false',
 		  'supervisor': 'false',
@@ -237,12 +238,64 @@ app.post('/support/', isAuthenticated, (req, res) => {
 app.post('/account/', isAuthenticated, (req, res) => {
 	res.render('templates/account');
 });
+
+
+/* --------------------------------------------------------------------- */
+/*
+**
+		App URL Requests
+
+
+/*
+*
+*	Receive data from device
+*
+/* --------------------------------------------------------------------- */
+/*
+app.post('/setdata/', upload.array(), (req, res) => {
+		console.log(req.body.device_uid);
+		return res.status(200).send("done");
+
+});
+
+/**		Set User Notification Token
+**
+*/
+/*
+app.post('/setToken/', upload.array(), (req, res) => {
+	var user = db.collection('users').doc(String(req.body.client_uid))
+		user.update({
+			'appToken': req.body.tokenId
+		});
+	return res.status(200).send("done");
+})
+
+
+app.post('/getUserDevices/', upload.array(), (req, res) => {
+	var d = []
+
+	db.collection('devices').where('clients.'+req.body.client_uid, '==', 'true').get().then(docs => {
+		docs.forEach(function(doc) {
+			d.push(doc.data())
+		})
+
+    	res.setHeader('Content-Type', 'application/json');
+		return res.status(200).send(d);
+	}).catch(error => {
+		console.log(error)
+		return res.status(403).send('Could Not Get Devices');
+	})
+	
+})
+*/
 /* --------------------------------------------------------------------- */
 /*
 ** 
 ** 		Admin Panel 
 ** 
 */
+/* --------------------------------------------------------------------- */
+
 /* --------------------------------------------------------------------- */
 app.post('/console/', isAuthenticated, (req, res) => {
 	if(res.locals.admin) {
@@ -256,12 +309,13 @@ app.post('/console/', isAuthenticated, (req, res) => {
 /* --------------------------------------------------------------------- */
 app.post('/console/devices', isAuthenticated, (req, res) => {
 	if(res.locals.admin) {
-		res.render('templates/devices');
+		return res.render('templates/devices');
 
 	}
 	else {
-		res.status(403).send('UNAUTHORIZED REQUEST!');
+		return res.status(403).send('UNAUTHORIZED REQUEST!');
 	}
+
 });
 app.post('/console/adddevice', isAuthenticated, upload.array(), (req, res) => {
 	if(res.locals.admin) {
@@ -275,7 +329,7 @@ app.post('/console/adddevice', isAuthenticated, upload.array(), (req, res) => {
 		return res.status(200).send("done");
 	}
 	else {
-		res.status(403).send('UNAUTHORIZED REQUEST!');
+		return res.status(403).send('UNAUTHORIZED REQUEST!');
 	}
 })
 app.post('/console/getdevices', isAuthenticated, upload.array(), (req, res) => {
@@ -293,16 +347,16 @@ app.post('/console/getdevices', isAuthenticated, upload.array(), (req, res) => {
 		});
 	}
 	else {
-		res.status(403).send('UNAUTHORIZED REQUEST!');
+		return res.status(403).send('UNAUTHORIZED REQUEST!');
 	}
 })
 /* --------------------------------------------------------------------- */
 app.post('/console/clients', isAuthenticated, (req, res) => {
 	if(res.locals.admin) {
-		  res.render('templates/clients');
+		return res.render('templates/clients');
 	}
 	else {
-		res.status(403).send('UNAUTHORIZED REQUEST!');
+		return res.status(403).send('UNAUTHORIZED REQUEST!');
 	}
 });
 app.post('/console/getclients', isAuthenticated, upload.array(), (req, res) => {
@@ -320,7 +374,7 @@ app.post('/console/getclients', isAuthenticated, upload.array(), (req, res) => {
 		});
 	}
 	else {
-		res.status(403).send('UNAUTHORIZED REQUEST!');
+		return res.status(403).send('UNAUTHORIZED REQUEST!');
 	}
 });
 app.post('/console/setadminclaims', isAuthenticated, upload.array(), (req, res) => {
@@ -383,14 +437,15 @@ app.post('/console/updateclient', isAuthenticated, upload.array(), (req, res) =>
 /* --------------------------------------------------------------------- */
 app.post('/console/linkproducts', isAuthenticated, (req, res) => {
 	if(res.locals.admin) {
-		  res.render('templates/linkproducts');
+		return res.render('templates/linkproducts');
 	}
 	else {
-		res.status(403).send('UNAUTHORIZED REQUEST!');
+		return res.status(403).send('UNAUTHORIZED REQUEST!');
 	}
 
 });
 app.post('/console/addlink', isAuthenticated, upload.array(), (req, res) => {
+	var uid = req.body.client_uid;
 	if(res.locals.admin) {
 		db.collection('linked_devices').where('device_ref', '==', req.body.device_ref )
 			.where('client_uid', '==', req.body.client_uid)
@@ -420,7 +475,7 @@ app.post('/console/addlink', isAuthenticated, upload.array(), (req, res) => {
 		
 	}
 	else {
-		res.status(403).send('UNAUTHORIZED REQUEST!');
+		return res.status(403).send('UNAUTHORIZED REQUEST!');
 	}
 })
 app.post('/console/getproducts', isAuthenticated, upload.array(), (req, res) => {
@@ -440,15 +495,15 @@ app.post('/console/getproducts', isAuthenticated, upload.array(), (req, res) => 
 		});
 	}
 	else {
-		res.status(403).send('UNAUTHORIZED REQUEST!');
+		return res.status(403).send('UNAUTHORIZED REQUEST!');
 	}
 })
 app.post('/console/updateproduct', isAuthenticated, upload.array(), (req, res) => {
 	if(res.locals.admin) {
-		res.status(403).send('UNAUTHORIZED REQUEST!');
+		return res.status(403).send('UNAUTHORIZED REQUEST!');
 	}
 	else {
-		res.status(403).send('UNAUTHORIZED REQUEST!');
+		return res.status(403).send('UNAUTHORIZED REQUEST!');
 	}
 })
 app.post('/console/deletelink', isAuthenticated, upload.array(), (req, res) => {
@@ -460,16 +515,16 @@ app.post('/console/deletelink', isAuthenticated, upload.array(), (req, res) => {
 		});
 	}
 	else {
-		res.status(403).send('UNAUTHORIZED REQUEST!');
+		return res.status(403).send('UNAUTHORIZED REQUEST!');
 	}
 })
 /* --------------------------------------------------------------------- */
 app.post('/console/settings', isAuthenticated, (req, res) => {
 	if(res.locals.admin) {
-		res.render('templates/adSettings');
+		return res.render('templates/adSettings');
 	}
 	else {
-		res.status(403).send('UNAUTHORIZED REQUEST!');
+		return res.status(403).send('UNAUTHORIZED REQUEST!');
 	}
   
 });
@@ -500,7 +555,7 @@ app.get('/signout/', (req, res) => {
 
 // 404 page not found
 app.get('**', (req, res) => {
-	res.render('pages/404');
+	return res.render('pages/404');
 })
 /* --------------------------------------------------------------------- */
 

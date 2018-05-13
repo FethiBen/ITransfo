@@ -32,7 +32,7 @@ body {
   z-index: 99999;
   display: none;
 }
-.alert-success, .alert-danger {
+.alert-success, .alert-danger, .alert-warning {
   position: fixed;
   top: 0px;
   left: 50%;
@@ -259,6 +259,7 @@ section {
 #main {
   width: 100%;
   height: 100%;
+  overflow-y: auto;
   padding: 15px;
 }
 .sk-circle {
@@ -405,8 +406,9 @@ footer {
   text-align: center;
   background-color: #19212b;
   color: white;
-  height: 100px;
+  height: 150px;
   font-size: 110%;
+  padding-bottom: 15px;
     
 }
 footer #footer-menu {
@@ -414,7 +416,7 @@ footer #footer-menu {
   margin: 0px auto;
 }
 footer span {
-  font-family: 'Aref Ruqaa', serif;
+  font-family: 'Times new romain', 'serif';
   display: block;
 }
 

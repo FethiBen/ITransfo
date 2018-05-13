@@ -266,7 +266,7 @@ $(document ).ready(function() {
 		}
 		$('.form-row').hide();
 		$('#link-products .loader').show();
-		$.post('/console/addlinkt', data, function(data) {
+		$.post('/console/addlink', data, function(data) {
 			$('.alert-success').text("Device Linked!").show();
 			setTimeout(function() {
 				$('.alert-success').hide();
