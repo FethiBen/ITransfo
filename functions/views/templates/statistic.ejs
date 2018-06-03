@@ -114,6 +114,7 @@
 
 
 <script>
+	var average = (array) => array.reduce((a, b) => a + b) / array.length;
 	var pri_voltage = [], sec_voltage = [], pri_current = [], sec_current = [], temperature = [], gp = [], upload = [];
 	upload = [];
   	pri_voltage['p1'] = [];
@@ -132,6 +133,9 @@
   	temperature['external'] = [];
   	gp['gas'] = [];
   	gp['pressure'] = [];
+  	min = [], max = [], avg = [];
+
+  	var chart_pri_vol, chart_sec_vol, chart_pri_cur, chart_sec_cur, chart_temp, chart_gp;
 
 	$("#chart-device_select input[type=date]").attr({'max': new Date().toJSON().split('T')[0]});
 
@@ -151,7 +155,7 @@
 			'device_ref': $("#chart-selected-device").val(),
 			'date': date
 		}
-		$.post('http://ec2-54-200-146-66.us-west-2.compute.amazonaws.com/getdatedata/', data, function(data) {
+		$.post('https://itransfo.ml/getdatedata/', data, function(data) {
 	      $("#container .sk-circle").css({"visibility": "hidden"});
 	      if(data.length > 0) {
 	      	upload = [];
@@ -171,27 +175,95 @@
 	      	temperature['external'] = [];
 	      	gp['gas'] = [];
 	      	gp['pressure'] = [];
+  			min = [], max = [], avg = [];
 	        $.each(data, function (i, item) {
-			    pri_voltage['p1'].push(item.pri_voltage_p1);
-		      	pri_voltage['p2'].push(item.pri_voltage_p2);
-		      	pri_voltage['p3'].push(item.pri_voltage_p3);
-		      	sec_voltage['p1'].push(item.sec_voltage_p1);
-		      	sec_voltage['p2'].push(item.sec_voltage_p2);
-		      	sec_voltage['p3'].push(item.sec_voltage_p3);
-		      	pri_current['p1'].push(item.pri_current_p1);
-		      	pri_current['p2'].push(item.pri_current_p2);
-		      	pri_current['p3'].push(item.pri_current_p3);
-		      	sec_current['p1'].push(item.sec_current_p1);
-		      	sec_current['p2'].push(item.sec_current_p2);
-		      	sec_current['p3'].push(item.sec_current_p3);
-		      	temperature['internal'].push(item.internal_temp);
-		      	temperature['external'].push(item.external_temp);
-		      	gp['gas'].push(item.gas);
-		      	gp['pressure'].push(item.pressure);
+			    pri_voltage['p1'].push(parseInt(item.pri_voltage_p1));
+		      	pri_voltage['p2'].push(parseInt(item.pri_voltage_p2));
+		      	pri_voltage['p3'].push(parseInt(item.pri_voltage_p3));
+		      	sec_voltage['p1'].push(parseInt(item.sec_voltage_p1));
+		      	sec_voltage['p2'].push(parseInt(item.sec_voltage_p2));
+		      	sec_voltage['p3'].push(parseInt(item.sec_voltage_p3));
+		      	pri_current['p1'].push(parseInt(item.pri_current_p1));
+		      	pri_current['p2'].push(parseInt(item.pri_current_p2));
+		      	pri_current['p3'].push(parseInt(item.pri_current_p3));
+		      	sec_current['p1'].push(parseInt(item.sec_current_p1));
+		      	sec_current['p2'].push(parseInt(item.sec_current_p2));
+		      	sec_current['p3'].push(parseInt(item.sec_current_p3));
+		      	temperature['internal'].push(parseInt(item.internal_temp));
+		      	temperature['external'].push(parseInt(item.external_temp));
+		      	gp['gas'].push(parseInt(item.gas));
+		      	gp['pressure'].push(parseInt(item.pressure));
 		      	upload.push(item.timestamp);
 			});
+			min.push(Math.min.apply(Math, pri_voltage['p1']));
+			min.push(Math.min.apply(Math, pri_voltage['p2']));
+			min.push(Math.min.apply(Math, pri_voltage['p3']));
+			min.push(Math.min.apply(Math, sec_voltage['p1']));
+			min.push(Math.min.apply(Math, sec_voltage['p2']));
+			min.push(Math.min.apply(Math, sec_voltage['p3']));
+			min.push(Math.min.apply(Math, pri_current['p1']));
+			min.push(Math.min.apply(Math, pri_current['p2']));
+			min.push(Math.min.apply(Math, pri_current['p3']));
+			min.push(Math.min.apply(Math, sec_current['p1']));
+			min.push(Math.min.apply(Math, sec_current['p2']));
+			min.push(Math.min.apply(Math, sec_current['p3']));
+			min.push(Math.min.apply(Math, temperature['internal']));
+			min.push(Math.min.apply(Math, temperature['external']));
+
+
+			max.push(Math.max.apply(Math, pri_voltage['p1']));
+			max.push(Math.max.apply(Math, pri_voltage['p2']));
+			max.push(Math.max.apply(Math, pri_voltage['p3']));
+			max.push(Math.max.apply(Math, sec_voltage['p1']));
+			max.push(Math.max.apply(Math, sec_voltage['p2']));
+			max.push(Math.max.apply(Math, sec_voltage['p3']));
+			max.push(Math.max.apply(Math, pri_current['p1']));
+			max.push(Math.max.apply(Math, pri_current['p2']));
+			max.push(Math.max.apply(Math, pri_current['p3']));
+			max.push(Math.max.apply(Math, sec_current['p1']));
+			max.push(Math.max.apply(Math, sec_current['p2']));
+			max.push(Math.max.apply(Math, sec_current['p3']));
+			max.push(Math.max.apply(Math, temperature['internal']));
+			max.push(Math.max.apply(Math, temperature['external']));
+
+			avg.push(average(pri_voltage['p1']));
+			avg.push(average(pri_voltage['p2']));
+			avg.push(average(pri_voltage['p3']));
+			avg.push(average(sec_voltage['p1']));
+			avg.push(average(sec_voltage['p2']));
+			avg.push(average(sec_voltage['p3']));
+			avg.push(average(pri_current['p1']));
+			avg.push(average(pri_current['p2']));
+			avg.push(average(pri_current['p3']));
+			avg.push(average(sec_current['p1']));
+			avg.push(average(sec_current['p2']));
+			avg.push(average(sec_current['p3']));
+			avg.push(average(temperature['internal']));
+			avg.push(average(temperature['external']));
+
+			console.log(min, max ,avg);
+
+			try {
+				chart_pri_vol.clear();
+				chart_sec_vol.clear();
+				chart_pri_cur.clear();
+				chart_sec_cur.clear();
+				chart_temp.clear();
+				chart_gp.clear();
+
+				chart_pri_vol.destroy();
+				chart_sec_vol.destroy();
+				chart_pri_cur.destroy();
+				chart_sec_cur.destroy();
+				chart_temp.destroy();
+				chart_gp.destroy();
+			}
+			catch(err) {
+				console.log(err);
+			}
+
 			var pri_vol_chart = document.getElementById('pri-voltage-chart').getContext('2d');
-			var chart_pri_vol = new Chart(pri_vol_chart, {
+			chart_pri_vol = new Chart(pri_vol_chart, {
 			    // The type of chart we want to create
 			    type: 'line',
 
@@ -254,7 +326,7 @@
 			});
 
 			var ctx = document.getElementById('sec-voltage-chart').getContext('2d');
-			var chart = new Chart(ctx, {
+			chart_sec_vol = new Chart(ctx, {
 			    // The type of chart we want to create
 			    type: 'line',
 
@@ -314,7 +386,7 @@
 			});
 
 			var ctx = document.getElementById('pri-current-chart').getContext('2d');
-			var chart = new Chart(ctx, {
+			chart_pri_cur = new Chart(ctx, {
 			    // The type of chart we want to create
 			    type: 'line',
 
@@ -374,7 +446,7 @@
 			});
 
 			var ctx = document.getElementById('sec-current-chart').getContext('2d');
-			var chart = new Chart(ctx, {
+			var chart_sec_cur = new Chart(ctx, {
 			    // The type of chart we want to create
 			    type: 'line',
 
@@ -434,7 +506,7 @@
 			});
 
 			var ctx = document.getElementById('temp-chart').getContext('2d');
-			var chart = new Chart(ctx, {
+			var chart_temp = new Chart(ctx, {
 			    // The type of chart we want to create
 			    type: 'line',
 
@@ -489,7 +561,7 @@
 			});
 
 			var ctx = document.getElementById('gp-chart').getContext('2d');
-			var chart = new Chart(ctx, {
+			var chart_gp = new Chart(ctx, {
 			    // The type of chart we want to create
 			    type: 'bar',
 
@@ -568,7 +640,7 @@
 	data = {
 		'client_uid': user.uid
 	}
-    $.post('http://ec2-54-200-146-66.us-west-2.compute.amazonaws.com/getUserDevices/', data, function(data) {
+    $.post('https://itransfo.ml/getUserDevices/', data, function(data) {
       $("#container .sk-circle").css({"visibility": "hidden"});
       if(data.length > 0) {
         $.each(data, function (i, item) {

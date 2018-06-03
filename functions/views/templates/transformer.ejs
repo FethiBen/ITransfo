@@ -167,7 +167,7 @@ $(document ).ready(function() {
 	data = {
 		'client_uid': user.uid
 	}
-    $.post('http://ec2-54-200-146-66.us-west-2.compute.amazonaws.com/getUserDevices/', data, function(data) {
+    $.post('https://itransfo.ml/getUserDevices/', data, function(data) {
       $("#container .sk-circle").css({"visibility": "hidden"});
       if(data.length > 0) {
         $.each(data, function (i, item) {
@@ -196,7 +196,7 @@ $(document ).ready(function() {
 		   	var data = {
 		   		'device_ref': this.value
 		   	}
-	   		$.post('http://ec2-54-200-146-66.us-west-2.compute.amazonaws.com/getdeviceData/', data, function(data) {
+	   		$.post('https://itransfo.ml/getdeviceData/', data, function(data) {
 	   		  $('#device_data table tbody').html('');
 		      $("#container .sk-circle").css({"visibility": "hidden"});
 		      if(data.length > 0) {

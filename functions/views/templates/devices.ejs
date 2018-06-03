@@ -277,14 +277,14 @@ $(document ).ready(function() {
 			}, 1500);
 			var data = {
 				'device_ref': $('#add-form #device-ref').val(),
-				'pri_voltage': 15,
-				'sec_voltage': 15,
-				'pri_current': 15,
-				'sec_current': 15,
+				'pri_voltage': 5,
+				'sec_voltage': 5,
+				'pri_current': 5,
+				'sec_current': 5,
 				'internal_temp': 60,
 				'external_temp': 45
 			}
-			$.post('http://ec2-54-200-146-66.us-west-2.compute.amazonaws.com/setprameters/', data, function(data) {
+			$.post('https://itransfo.ml/setprameters/', data, function(data) {
 				console.log(data);
 		    }).fail(function(error) {
 		    	console.log(error);

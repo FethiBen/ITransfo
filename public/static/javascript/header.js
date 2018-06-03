@@ -1,5 +1,6 @@
 var sideNavWidth;
 $('#main').css({"height": window.innerHeight+"px"});
+var user;
 
 $(document ).ready(function() {
   $('.spinner').css({"visibility": "visible"});
@@ -14,25 +15,26 @@ $(document ).ready(function() {
   sideNavWidth = $(".sidenav").css("width");
   $('.spinner').css({"visibility": "hidden"});
       // [START authstatelistener]
-      var user = firebase.auth().currentUser;
+      user = firebase.auth().currentUser;
       if (user) {
         // User is signed in.
       } else {
         // No user is signed in.
       }
 
-  firebase.auth().onAuthStateChanged(function(user) {
+  firebase.auth().onAuthStateChanged(function(u) {
     // [END_EXCLUDE]
-    if (user) {
+    if (u) {
+      user = u;
       // User is signed in.
       //window.location.replace("/dashboard/");
-      var displayName = user.displayName;
-      var email = user.email;
-      var emailVerified = user.emailVerified;
-      var photoURL = user.photoURL;
-      var isAnonymous = user.isAnonymous;
-      var uid = user.uid;
-      var providerData = user.providerData;
+      var displayName = u.displayName;
+      var email = u.email;
+      var emailVerified = u.emailVerified;
+      var photoURL = u.photoURL;
+      var isAnonymous = u.isAnonymous;
+      var uid = u.uid;
+      var providerData = u.providerData;
       $("#profile-menu #username").text(displayName);
       $("#profile-menu #useremail").text(email);
       // [START_EXCLUDE]

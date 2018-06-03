@@ -38,7 +38,7 @@ function checkIfSignedIn(url) {
     } else {
        return next();
     }
-  }
+  };
 }
 function attachCsrfToken(url, cookie, value) {
   return function(req, res, next) {
@@ -46,7 +46,7 @@ function attachCsrfToken(url, cookie, value) {
       res.cookie(cookie, value);
     }
     next();
-  }
+  };
 }
 /*admin.auth().getUser(decodedClaims.uid).then((userRecord) => {
   // The claims can be accessed on the user record.
@@ -64,9 +64,14 @@ function isAuthenticated(req, res, next) {
 	const sessionCookie = req.cookies.__session || '';
     admin.auth().verifySessionCookie(
 	    sessionCookie, true).then((decodedClaims) => {
-			res.locals.admin = (decodedClaims.admin.toString() === 'true')? true: false;
-			res.locals.supervisor = (decodedClaims.supervisor.toString() === 'true')? true: false;
-			return next();
+	    	try {
+	    		res.locals.admin = (decodedClaims.admin.toString() === 'true')? true: false;
+				res.locals.supervisor = (decodedClaims.supervisor.toString() === 'true')? true: false;
+				return next();
+	    	}
+			catch(error) {
+				return next();
+			}
 	  }).catch(error => {
 	    res.redirect('/');
 	  });
@@ -125,6 +130,13 @@ app.post('/signup/', upload.array(), (req, res) => {
 		  'supervisor': 'false',
 		  'disabled': 'false'
 		});
+
+		admin.auth().setCustomUserClaims(userRecord.uid, {admin: false, supervisor: false}).then(() => {
+	        console.log("done");
+	        return true;
+		}).catch(error => {
+		        console.log(error);
+		      });
 		
 	    res.send("signedUp");
 	    return true;
@@ -158,6 +170,10 @@ app.post('/sessionLogin/', upload.array(), (req, res) => {
   });
 
 });
+/* --------------------------------------------------------------------- */
+
+
+
 /* --------------------------------------------------------------------- */
 /*
 admin.auth().setCustomUserClaims('JV4B09DOwvbmiYLzfdr9XOVN26q2', {admin: true, supervisor: true}).then(() => {
@@ -241,53 +257,7 @@ app.post('/account/', isAuthenticated, (req, res) => {
 
 
 /* --------------------------------------------------------------------- */
-/*
-**
-		App URL Requests
 
-
-/*
-*
-*	Receive data from device
-*
-/* --------------------------------------------------------------------- */
-/*
-app.post('/setdata/', upload.array(), (req, res) => {
-		console.log(req.body.device_uid);
-		return res.status(200).send("done");
-
-});
-
-/**		Set User Notification Token
-**
-*/
-/*
-app.post('/setToken/', upload.array(), (req, res) => {
-	var user = db.collection('users').doc(String(req.body.client_uid))
-		user.update({
-			'appToken': req.body.tokenId
-		});
-	return res.status(200).send("done");
-})
-
-
-app.post('/getUserDevices/', upload.array(), (req, res) => {
-	var d = []
-
-	db.collection('devices').where('clients.'+req.body.client_uid, '==', 'true').get().then(docs => {
-		docs.forEach(function(doc) {
-			d.push(doc.data())
-		})
-
-    	res.setHeader('Content-Type', 'application/json');
-		return res.status(200).send(d);
-	}).catch(error => {
-		console.log(error)
-		return res.status(403).send('Could Not Get Devices');
-	})
-	
-})
-*/
 /* --------------------------------------------------------------------- */
 /*
 ** 
@@ -350,6 +320,7 @@ app.post('/console/getdevices', isAuthenticated, upload.array(), (req, res) => {
 		return res.status(403).send('UNAUTHORIZED REQUEST!');
 	}
 })
+
 /* --------------------------------------------------------------------- */
 app.post('/console/clients', isAuthenticated, (req, res) => {
 	if(res.locals.admin) {

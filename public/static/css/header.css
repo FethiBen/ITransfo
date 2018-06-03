@@ -200,6 +200,9 @@ body {
 .menu ul {
   padding: 0px;
 }
+#android-app {
+}
+
 /* Style page content */
 section {
   padding-top: 55px;

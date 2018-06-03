@@ -16,9 +16,14 @@
 }
 #device-lists .device:hover {
   background: #607D8B;
-  color: white;
   cursor: pointer;
+  color: white;
   border: 1px solid white;
+}
+.activeDevice {
+  background: #607D8B !important;
+  color: white !important;
+  border: 1px solid white !important;
 }
 
 #device-msg {
@@ -39,10 +44,8 @@
   border-bottom: 2px solid #80DEEA;
 }
 #device-msg table tbody tr {
+  width: 100%;
   border-bottom: 1px solid #e0ebeb;
-}
-#device-msg table tbody td {
-  display: inline-block;
 }
 #device-msg table tbody tr:hover {
   background: #c2f0f0;
@@ -91,10 +94,9 @@
     <div id="device-msg" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
       <table>
         <thead>
-          <tr>
-            <th>Device Ref</th>
-            <th>Message</th>
-            <th>Timestamp</th>
+          <tr style="text-align: center;">
+            <th colspan="1">Message</th>
+            <th colspan="1">Timestamp</th>
           </tr>
         </thead>
         <tbody>
@@ -138,7 +140,10 @@
 
   $(document ).ready(function() {
     $("#container > .sk-circle").css({"visibility": "visible"});
-    $.post('/console/getdevices', function(data) {
+    var data = {
+      'client_uid': user.uid 
+    }
+    $.post('https://itransfo.ml/getUserDevicesInfo/', data, function(data) {
       $("#container .sk-circle").css({"visibility": "hidden"});
       if(data.length > 0) {
         $("#container #device-lists").html('');
@@ -167,19 +172,20 @@
 
 
   $(document).on('click', '#device-lists .device', function(event) {
+    $('#device-lists .device').removeClass('activeDevice');
+    $(this).addClass('activeDevice');
       $("#device-msg .sk-circle").css({"visibility": "visible"});
       var ref = $(this).find('.dev-ref').text();
       var data = {
         'device_ref': ref
       }
       $("#device-msg table tbody").html('')
-      $.post('http://ec2-54-200-146-66.us-west-2.compute.amazonaws.com/getmessages/', data, function(data) {
+      $.post('https://itransfo.ml/getmessages/', data, function(data) {
         $("#device-msg .sk-circle").css({"visibility": "hidden"});
         if(data.length > 0) {
             data.forEach(function(msg) {
             $("#device-msg table tbody").append(
-              '<tr>\
-                <td>'+msg.device_ref+'</td>\
+              '<tr dataId="'+msg._id+'">\
                 <td>'+msg.msg+'</td>\
                 <td>'+msg.timestamp+'</td>\
               </tr>');
@@ -196,5 +202,9 @@
           $('.alert-danger').hide();
         }, 1500);
       });
+  });
+
+  $(document).on('click', "#device-msg table tbody tr", function(e) {
+    console.log($(this).attr('dataId'));
   });
 </script>
