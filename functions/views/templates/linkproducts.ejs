@@ -268,6 +268,7 @@ $(document ).ready(function() {
 		$('#link-products .loader').show();
 		$.post('/console/addlink', data, function(data) {
 			$('.alert-success').text("Device Linked!").show();
+			loadLinkedDevices();
 			setTimeout(function() {
 				$('.alert-success').hide();
 			}, 1500);
