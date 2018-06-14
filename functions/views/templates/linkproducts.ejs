@@ -276,7 +276,7 @@ $(document ).ready(function() {
 			$('.form-row').show();
 			$('#link-products .loader').hide();
 		}).fail(function(error) {
-			$('.alert-danger').text(error).show();
+			$('.alert-danger').text("Could not Add Link").show();
 			setTimeout(function() {
 				$('.alert-danger').hide();
 			}, 1500);

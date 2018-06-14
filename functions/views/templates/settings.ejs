@@ -208,7 +208,8 @@ $(document ).ready(function() {
 		    'sec_current': $('.params-input #sec_current_params').val(),
 		    'internal_temp': $('.params-input #int_temp_params').val(),
 		    'external_temp': $('.params-input #ext_temp_params').val(),
-		    'device_ref': $('#setting-selected-device').val()
+		    'device_ref': $('#setting-selected-device').val(),
+		    'uid': user.uid
 		}
 		$.post('https://itransfo.ml/updateprameters/', data, function(data) {
 			    $("#device-param").show();
@@ -221,7 +222,7 @@ $(document ).ready(function() {
 		    }).fail(function(error) {
 		    	$("#device-param").show();
 		        $("#container > .sk-circle").css({"visibility": "hidden"});
-		        $('.alert-danger').text('Could not get data').show();
+		        $('.alert-danger').text('Could not update data').show();
 		        setTimeout(function() {
 		            $('.alert-danger').hide();
 		        }, 1500);

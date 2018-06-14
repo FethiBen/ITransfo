@@ -204,6 +204,7 @@
 
 	$("#chart-device_select #update-chart").click(function(event) {
 		$("#container .sk-circle").css({"visibility": "visible"});
+		$("#device_stat_data table tbody").html("");
 		if($("#chart-selected-device").val() == "null" || $("#chart-data-date").val() == ""){
 			$('.alert-warning').text('Please provide a valid Device and Date').show();
 		      setTimeout(function() {
@@ -221,6 +222,7 @@
 		$.post('https://itransfo.ml/getdatedata/', data, function(data) {
 	      $("#container .sk-circle").css({"visibility": "hidden"});
 	      if(data.length > 0) {
+	      	data.sort((function (a, b) { return new Date(a.timestamp) - new Date(b.timestamp) }));
 	      	upload = [];
 	      	pri_voltage['p1'] = [];
 	      	pri_voltage['p2'] = [];

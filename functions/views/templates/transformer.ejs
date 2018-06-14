@@ -200,6 +200,7 @@ $(document ).ready(function() {
 	   		  $('#device_data table tbody').html('');
 		      $("#container .sk-circle").css({"visibility": "hidden"});
 		      if(data.length > 0) {
+		      	data.sort((function (a, b) { return new Date(a.timestamp) - new Date(b.timestamp) }));
 		        $.each(data, function (i, item) {
 				    $('#device_data table tbody').append(
 				    	'<tr class="dev-data">\
